@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Projects Management System",
   "engines": {
-    "node": "14.18.0",
-    "npm": "8.5.4"
+    "node": "14.16.0",
+    "npm": "8.19.2"
   },
   "main": "index.js",
   "scripts": {
