@@ -2,7 +2,6 @@ const router = require("express").Router();
 let Posts = require("../../models/columnShowHide/mobitelDatabase");
 
 router.route("/Edit").put(async (req, res) => {
-  console.log(req.body);
   id = "63515e4afda7eb47137b1089";
   Posts.findByIdAndUpdate(id, req.body)
     .then((Posts) => res.json(Posts))

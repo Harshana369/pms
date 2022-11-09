@@ -20,6 +20,22 @@ export default function App() {
   const [error, setError] = useState('');
   const [privateData, setPrivateData] = useState('');
 
+  const mobitelProjectBlackup = async () => {
+    try {
+      await axiosInstance.get('/api/blackup/mobitelprojectdatabase/json');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const venderProjectBlackup = async () => {
+    try {
+      await axiosInstance.get('/api/blackup/venderprojectdatabase/json');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect((e) => {
     const fetchPrivateDate = async () => {
       const config = {
@@ -42,6 +58,26 @@ export default function App() {
     };
 
     fetchPrivateDate();
+  }, []);
+
+  useEffect(() => {
+    console.log('hars-m');
+    const interval = setInterval(() => {
+      console.log('mobitel');
+      mobitelProjectBlackup();
+    }, 86400000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    console.log('hars-v');
+    const interval = setInterval(() => {
+      console.log('vender');
+      venderProjectBlackup();
+    }, 86400000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

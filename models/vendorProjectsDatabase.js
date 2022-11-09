@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const dataSchema = new mongoose.Schema({
-    
+const dataSchema = new mongoose.Schema(
+  {
     Planning_ID: {
-        type: String,
-        unique: true
+      type: String,
+      unique: true,
     },
     Implementation_By: String,
     Project: String,
@@ -131,9 +131,10 @@ const dataSchema = new mongoose.Schema({
     Capitalized_Date: String,
     Finance_Remarks: String,
 
-    currentUser: String
-},
-    { timestamps: true }
+    currentUser: String,
+  },
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('VendorProjectsDatabase', dataSchema);
+const Vender = mongoose.model("VendorProjectsDatabase", dataSchema);
+module.exports = Vender;
