@@ -84,7 +84,7 @@ function getXaxisData() {
 
   var XaxisMonths = monthsArray;
 
-  //console.log(XaxisMonths);
+  console.log(XaxisMonths);
   return XaxisMonths;
 }
 

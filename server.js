@@ -22,12 +22,9 @@ app.get("/", (req, res, next) => {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/private", require("./routes/private"));
 
-//Data backup
-//require("./routes/DatabaseBlackup");
-//require("./routes/mobitelDatabaseJson.js");
-//require("./routes/venderDatabaseJson.js");
-
-// require("./routes/testJson.js");
+//Database blacks
+require("./routes/csvDataBlackup.js");
+require("./routes/jsonDataBlackup.js");
 
 // Routes
 const vendorProjectsOverviewTableRoutes = require("./routes/vendorProjectsOverviewTableRoutes.js");
@@ -73,9 +70,6 @@ const vendorProjectsLastUpdates = require("./routes/VendorDatabaseTableRoutes/ve
 const mobitelColumnHideShow = require("./routes/columnShowHide/mobitelDatabase.js");
 const materialProjectsDatabase = require("./routes/MaterialDatabaseRoutes.js");
 
-const mobiteldatabaseblackup = require("./routes/mobitelDatabaseJson.js");
-const venderdatabseblackup = require("./routes/venderDatabaseJson.js");
-
 // Error Handler Middleware
 app.use(errorHandler);
 
@@ -117,9 +111,6 @@ app.use(vendorDatabasesPendingTasks);
 
 app.use(mobitelProjectsLastUpdates);
 app.use(vendorProjectsLastUpdates);
-
-app.use("/api/blackup/mobitelprojectdatabase", mobiteldatabaseblackup);
-app.use("/api/blackup/venderprojectdatabase", venderdatabseblackup);
 
 require("dotenv").config({ path: "./.env" });
 
