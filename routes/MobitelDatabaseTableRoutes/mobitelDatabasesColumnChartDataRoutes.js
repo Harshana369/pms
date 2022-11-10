@@ -58,33 +58,37 @@ function getXaxisData() {
     "11",
     "12"
   );
-  var now = new Date();
+  //var now = new Date();
 
-  for (var i = 0; i < 11; i++) {
-    var future = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    var month = theMonths[future.getMonth()];
-    var year = future.getFullYear();
-    var monthsArray = [];
+  // for (var i = 0; i < 11; i++) {
+  //   var monthsArray = [];
+  // }
+
+  var monthsArray = [];
+
+  // for (var i = 0; i < 11; i++) {
+  //   monthsArray.push(
+  //     theMonths[now.getMonth()] + "/01/" + now.getFullYear());
+  //   now.setMonth(now.getMonth() - 1);
+  // }
+
+  var d = new Date();
+  d.setDate(1);
+  for (i = 0; i <= 11; i++) {
+    monthsArray.push(theMonths[d.getMonth()] + "/01/" + d.getFullYear());
+    d.setMonth(d.getMonth() - 1);
   }
 
-  for (var i = 0; i < 11; i++) {
-    monthsArray.push(
-      theMonths[now.getMonth()] + "/01/" + now.getFullYear().toString()
-    );
-    now.setMonth(now.getMonth() - 1);
-  }
+  //var nextMonth = new Date(d.setMonth(d.getMonth() + 1));
+  //var nextMm = ("0" + nextMonth.getMonth()).slice(-2);
+  //var nextMy = nextMonth.getFullYear() + 1;
+  // var nextMonthDate = nextMm + "/01/" + nextMy;
 
-  var nextMonth = new Date(now.setMonth(now.getMonth() + 1));
-  var nextMm = ("0" + nextMonth.getMonth()).slice(-2);
-  var nextMy = nextMonth.getFullYear() + 1;
-  var nextMonthDate = nextMm + "/01/" + nextMy;
-
-  monthsArray.unshift(nextMonthDate);
   monthsArray.reverse();
 
   var XaxisMonths = monthsArray;
 
-  console.log(XaxisMonths);
+  //console.log(monthsArray);
   return XaxisMonths;
 }
 

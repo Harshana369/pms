@@ -54,20 +54,7 @@ export default function DashboardApp() {
   const [PATPassDataMobitel, sePATPassDataMobitel] = useState();
   const [OnAirDataMobitel, setOnAirDataMobitel] = useState();
   const [HoldSitesDataMobitel, setHoldSitesDataMobitel] = useState();
-  const [XaxisDataMobitel, setXaxisDataMobitel] = useState([
-    '12/01/2021',
-    '01/01/2022',
-    '02/01/2022',
-    '03/01/2022',
-    '04/01/2022',
-    '05/01/2022',
-    '06/01/2022',
-    '07/01/2022',
-    '08/01/2022',
-    '09/01/2022',
-    '10/01/2022',
-    '11/01/2022'
-  ]);
+  const [XaxisDataMobitel, setXaxisDataMobitel] = useState([]);
   const [ProjectCompletionMobitel, setProjectCompletionMobitel] = useState([]);
   const [XAxisDaysLabelMobitel, setxAxisDaysLabelMobitel] = useState([]);
   const [WeeklyProgressDataMobitel, setweeklyProgressDataMobitel] = useState([
@@ -160,7 +147,7 @@ export default function DashboardApp() {
       })
       .then((res) => {
         setChartDatForColumnGraphMobitel(res.data.chartDataForFrontEnd);
-        // setXaxisDataMobitel(res.data.XaxisDataForTheGraphs);
+        setXaxisDataMobitel(res.data.XaxisDataForTheGraphs);
       });
   };
 
