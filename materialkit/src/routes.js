@@ -164,6 +164,9 @@ import SettingsMobitelProjectsScope from './components/_dashboard/Settings/Mobit
 import SettingsMobitelProjectsNewRAT from './components/_dashboard/Settings/MobitelProjects/New_RAT/MobitelProjectsSettingsNew_RAT';
 import SettingsMobitelProjectsSubContractor from './components/_dashboard/Settings/MobitelProjects/Sub_Contractor/MobitelProjectsSettingsSub_Contractor';
 
+// Admin matiriyal
+import Material from './pages/Material';
+
 export default function Router() {
   const [userRole, setUserRole] = useState('Admin');
 
@@ -206,6 +209,16 @@ export default function Router() {
           element:
             userRole === 'Admin' || userRole === 'Moderator' ? (
               <Databases />
+            ) : (
+              <Navigate to="/unauthorized" />
+            )
+        },
+
+        {
+          path: 'Material',
+          element:
+            userRole === 'Admin' || userRole === 'Moderator' ? (
+              <Material />
             ) : (
               <Navigate to="/unauthorized" />
             )

@@ -143,6 +143,13 @@ const sidebarConfig = [
   //     }
   //   ]
   // },
+
+  {
+    title: 'Material Return',
+    path: '/dashboard/Material',
+    icon: getIcon(fileTextFill)
+  },
+
   {
     title: 'Users',
     path: '/dashboard/Users',
