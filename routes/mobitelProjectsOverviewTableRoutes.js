@@ -270,41 +270,15 @@ function getProjectScopeData(posts) {
 //---------------------------------------------------------------------------------------------------------------------------
 
 function getscopeDetails(posts) {
-  var ProjectNameArray = [];
   var ProjectInScopArray = [];
 
-  // projectsScopesDetails = posts.filter((obj) => obj.ProjectScope).length;
   projectsNameLength = posts.filter((obj) => obj.ProjectName).length;
 
   for (var i = 0; i < projectsNameLength; i++) {
-    ProjectNameArray[i] = posts.filter((obj) => obj.ProjectName)[i].ProjectName;
-    ProjectInScopArray[i] = posts.filter((obj) => obj.ProjectScope)[
-      i
-    ].ProjectScope;
+    ProjectInScopArray[i] = posts.filter((obj) => obj.ProjectScope)[i];
   }
-
-  var name = [];
-  var count =[];
-
-  var row = []
-
-  for (let i = 0; i < ProjectNameArray.length; i++) {
-    name[i] = ProjectNameArray[i];
-  }
-    for (let i = 0; i < ProjectNameArray.length; i++) {
-    count[i] = ProjectInScopArray[i];
-  }
-
-      for (let i = 0; i < ProjectNameArray.length; i++) {
-    row[i] = (name[i],count[i])
-  }
-
-
-
-  console.log(name);
-  console.log(count);
-  console.log(row);
-  
+  // console.log(ProjectInScopArray);
+  return ProjectInScopArray
 }
 
 //---------------------------------------------------------------------------------------------------------------------------

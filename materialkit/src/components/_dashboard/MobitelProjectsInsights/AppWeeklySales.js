@@ -75,19 +75,6 @@ export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
     setOpen(false);
     setSelectedValue(value);
   };
-
-  function createData(name, count) {
-    return { name, count };
-  }
-
-  console.log(scopeDataDetails);
-  const rows = [
-    createData('Covid 19 Capacity Update 3', 182),
-    createData('Huawei IBBE P1', 165),
-    createData('Other Project 2021', 72),
-    createData('Mobitel Projects Overview', 1200)
-  ];
-
   return (
     <>
       <RootStyle>
@@ -111,12 +98,12 @@ export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.name}>
+              {scopeDataDetails.map((scopeDataDetail) => (
+                <TableRow key={scopeDataDetail._id}>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {scopeDataDetail.ProjectName}
                   </TableCell>
-                  <TableCell align="right">{row.count}</TableCell>
+                  <TableCell align="right">{scopeDataDetail.ProjectScope}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
