@@ -35,6 +35,7 @@ export default function MobitelProjectsInsights() {
   const [projectNamesArray, setprojectNamesArray] = useState([]);
 
   const [ScopeData, setScopeData] = useState([]);
+  const [DetailsDataInScope, setDetailsDataInScope] = useState([]);
   const [HandoverData, setHandoverData] = useState([]);
   const [PATPassData, sePATPassData] = useState();
   const [OnAirData, setOnAirData] = useState();
@@ -122,6 +123,8 @@ export default function MobitelProjectsInsights() {
       })
       .then((res) => {
         setScopeData(res.data.scopeDataToTheFrontEnd);
+        // console.log(res.data.scopeDetailsDataToTheFrontEnd);
+        setDetailsDataInScope(res.data.scopeDetailsDataToTheFrontEnd);
       });
   };
 
@@ -172,7 +175,7 @@ export default function MobitelProjectsInsights() {
       <Container maxWidth="xl">
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6} md={2.4}>
-            <AppWeeklySales scopeData={ScopeData} />
+            <AppWeeklySales scopeData={ScopeData} scopeDataDetails={DetailsDataInScope} />
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <AppBugReports1 handoverData={HandoverData} />

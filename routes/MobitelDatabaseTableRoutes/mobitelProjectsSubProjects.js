@@ -164,7 +164,7 @@ function getSevenDaysOfWeek() {
   let start = today.getDay();
   if (start == 6) {
     return days;
-    console.log(days);
+    // console.log(days);
   } else {
     return days.slice(start).concat(days.slice(0, start));
     //console.log(days.slice(start).concat(days.slice(0,start)));

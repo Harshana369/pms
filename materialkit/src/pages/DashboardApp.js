@@ -242,46 +242,6 @@ export default function DashboardApp() {
     setVendorDropdownValue(event.target.value);
   };
 
-  // //-------Scope----------
-
-  // const mobitelScopDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelScopeLoading, ScopeDataMobitel } = mobitelScopDetails;
-
-  // const vendorScopDetails = useSelector((state) => state.mobitelScope);
-  // const { VenderScopeLoading, ScopeDataVendor } = mobitelScopDetails;
-
-  // //-------Handover--------
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // //-------PATPass--------
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // //-------OnAir--------
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // //------HoldSites-----
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
-  // const mobitelHandoverDetails = useSelector((state) => state.mobitelScope);
-  // const { mobitelHandoverLoading, HandoverDataMobitel } = mobitelScopDetails;
-
   const ScopeData = ScopeDataMobitel + ScopeDataVendor;
   const HandoverData = parseInt(HandoverDataMobitel, 10) + parseInt(HandoverDataVendor, 10);
   const PATPassData = parseInt(PATPassDataMobitel, 10) + parseInt(PATPassDataVendor, 10);

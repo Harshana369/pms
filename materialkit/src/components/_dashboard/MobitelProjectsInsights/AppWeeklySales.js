@@ -3,7 +3,20 @@ import { Icon } from '@iconify/react';
 import site from '@iconify/icons-eva/radio-outline';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  Dialog,
+  DialogTitle,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -33,7 +46,10 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------------------------------
-export default function AppWeeklySales({ scopeData }) {
+export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState();
+
   // const [ScopeData, setData1] = useState([]);
   // useEffect(() => {
   //   axios
@@ -51,15 +67,62 @@ export default function AppWeeklySales({ scopeData }) {
 
   const TOTAL = scopeData;
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
+
+  function createData(name, count) {
+    return { name, count };
+  }
+
+  console.log(scopeDataDetails);
+  const rows = [
+    createData('Covid 19 Capacity Update 3', 182),
+    createData('Huawei IBBE P1', 165),
+    createData('Other Project 2021', 72),
+    createData('Mobitel Projects Overview', 1200)
+  ];
+
   return (
-    <RootStyle>
-      <IconWrapperStyle>
-        <Icon icon={site} width={24} height={24} />
-      </IconWrapperStyle>
-      <Typography variant="h3">{TOTAL}</Typography>
-      <Typography variant="subtitle1" sx={{ opacity: 1 }}>
-        Scope
-      </Typography>
-    </RootStyle>
+    <>
+      <RootStyle>
+        <IconWrapperStyle>
+          <Icon icon={site} width={24} height={24} />
+        </IconWrapperStyle>
+        <Typography variant="h3">{TOTAL}</Typography>
+
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Scope
+        </Button>
+      </RootStyle>
+
+      <Dialog onClose={handleClose} open={open}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 500 }} aria-label="caption table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ProjectName</TableCell>
+                <TableCell align="right">Count</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.count}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Dialog>
+    </>
   );
 }
