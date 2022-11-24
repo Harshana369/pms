@@ -46,7 +46,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------------------------------
-export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
+export default function AppWeeklySales({ scopeData }) {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
 
@@ -67,8 +67,14 @@ export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
 
   const TOTAL = scopeData;
 
+  const URL = 'http://localhost:3000';
+
   const handleClickOpen = () => {
-    setOpen(true);
+    window.open(
+      `${URL}/DatabasesMobitelProjects/AllMobitelScopeData`,
+      'Scope Details',
+      'width=1000px,height=400px'
+    );
   };
 
   const handleClose = (value) => {
@@ -88,7 +94,7 @@ export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
         </Button>
       </RootStyle>
 
-      <Dialog onClose={handleClose} open={open}>
+      {/* <Dialog onClose={handleClose} open={open}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="caption table">
             <TableHead>
@@ -109,7 +115,7 @@ export default function AppWeeklySales({ scopeData, scopeDataDetails }) {
             </TableBody>
           </Table>
         </TableContainer>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }

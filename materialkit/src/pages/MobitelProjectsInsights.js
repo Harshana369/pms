@@ -31,11 +31,9 @@ import AppCurrentVisits5 from '../components/_dashboard/MobitelProjectsInsights/
 
 export default function MobitelProjectsInsights() {
   const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
-
   const [projectNamesArray, setprojectNamesArray] = useState([]);
 
   const [ScopeData, setScopeData] = useState([]);
-  const [DetailsDataInScope, setDetailsDataInScope] = useState([]);
   const [HandoverData, setHandoverData] = useState([]);
   const [PATPassData, sePATPassData] = useState();
   const [OnAirData, setOnAirData] = useState();
@@ -123,8 +121,6 @@ export default function MobitelProjectsInsights() {
       })
       .then((res) => {
         setScopeData(res.data.scopeDataToTheFrontEnd);
-        // console.log(res.data.scopeDetailsDataToTheFrontEnd);
-        setDetailsDataInScope(res.data.scopeDetailsDataToTheFrontEnd);
       });
   };
 
@@ -175,7 +171,7 @@ export default function MobitelProjectsInsights() {
       <Container maxWidth="xl">
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6} md={2.4}>
-            <AppWeeklySales scopeData={ScopeData} scopeDataDetails={DetailsDataInScope} />
+            <AppWeeklySales scopeData={ScopeData} />
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <AppBugReports1 handoverData={HandoverData} />

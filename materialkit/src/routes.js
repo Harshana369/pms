@@ -82,6 +82,7 @@ import MobitelProjectsMilestones from './pages/MobitelProjectsMilestones';
 import MobitelProjectsDatabase from './pages/MobitelProjectsDatabase';
 // Mobitel Databases
 import DatabasesMobitelProjectsAllMobitelProjects from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelProjectsPage';
+import DatabasesMobitelProjectsAllMobitelScopeData from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelScopeData';
 import DatabasesMobitelProjectsPendingMobitelProjects from './components/_dashboard/MobitelProjectDatabase/PendingTasks/PendingTasksHome/MobitelDatabasesPendingTasksHome';
 import DatabasesMobitelProjectsPendingMobitelProjectsHODetails from './components/_dashboard/MobitelProjectDatabase/PendingTasks/HODetails/HODetailsPage';
 import DatabasesMobitelProjectsPendingMobitelProjectsAssign from './components/_dashboard/MobitelProjectDatabase/PendingTasks/Assign/AssignPage';
@@ -1089,6 +1090,7 @@ export default function Router() {
               <Navigate to="/unauthorized" />
             )
         },
+
         {
           path: 'DatabasesMobitelProjects/PendingMobitelTasks',
           element:
@@ -1437,6 +1439,16 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
+    {
+      path: 'DatabasesMobitelProjects/AllMobitelScopeData',
+      element:
+        userRole === 'Admin' || userRole === 'Moderator' || userRole === 'Editor' ? (
+          <DatabasesMobitelProjectsAllMobitelScopeData />
+        ) : (
+          <Navigate to="/unauthorized" />
+        )
+    },
+
     { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }
