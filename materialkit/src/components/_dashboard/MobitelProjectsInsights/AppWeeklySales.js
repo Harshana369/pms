@@ -67,7 +67,7 @@ export default function AppWeeklySales({ scopeData }) {
 
   const TOTAL = scopeData;
 
-  const URL = 'http://localhost:3000';
+  const URL = 'https://test-l-version.herokuapp.com';
 
   const handleClickOpen = () => {
     window.open(
