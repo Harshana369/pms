@@ -59,6 +59,7 @@
     "change-case": "^4.1.2",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.24.0",
+    "dotenv": "^16.0.3",
     "faker": "^5.5.3",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",

@@ -31,6 +31,7 @@ import AppCurrentVisits5 from '../components/_dashboard/MobitelProjectsInsights/
 
 export default function MobitelProjectsInsights() {
   const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+
   const [projectNamesArray, setprojectNamesArray] = useState([]);
 
   const [ScopeData, setScopeData] = useState([]);

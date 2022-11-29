@@ -551,59 +551,28 @@ function getchartDataForDashboard(posts) {
 
   for (var i = 0; i < 12; i++) {
     mobilizeData[i] = parseInt(
-      posts
-        .filter((obj) => obj.Mobilization_Status === "Completed")
-        .filter(
-          (obj) => obj.Mobilized_Date.toString().slice(0, 7) === monthsArray[i]
-        ).length,
-      10
+      posts.filter((obj) => obj.Mobilization_Status === "Completed").length
     );
     installedData[i] = parseInt(
-      posts
-        .filter((obj) => obj.Installation_Status === "Completed")
-        .filter(
-          (obj) =>
-            obj.Installation_Date.toString().slice(0, 7) === monthsArray[i]
-        ).length,
-      10
+      posts.filter((obj) => obj.Installation_Status === "Completed").length
     );
+
     commissioned[i] = parseInt(
-      posts
-        .filter((obj) => obj.Commissioning_Status === "Completed")
-        .filter(
-          (obj) =>
-            obj.Commisioned_Date.toString().slice(0, 7) === monthsArray[i]
-        ).length,
-      10
+      posts.filter((obj) => obj.Commissioning_Status === "Completed").length
     );
     sarData[i] = parseInt(
-      posts
-        .filter(
-          (obj) =>
-            obj.SAR_Status === "Approved" || obj.SAR_Status === "PAT Only"
-        )
-        .filter((obj) => obj.SAR_Date.toString().slice(0, 7) === monthsArray[i])
-        .length,
-      10
+      posts.filter(
+        (obj) => obj.SAR_Status === "Approved" || obj.SAR_Status === "PAT Only"
+      ).length
     );
     patData[i] = parseInt(
-      posts
-        .filter(
-          (obj) =>
-            obj.PAT_Status === "Pass" || obj.PAT_Status === "Pass with minor"
-        )
-        .filter(
-          (obj) => obj.PAT_Pass_Date.toString().slice(0, 7) === monthsArray[i]
-        ).length,
-      10
+      posts.filter(
+        (obj) =>
+          obj.PAT_Status === "Pass" || obj.PAT_Status === "Pass with minor"
+      ).length
     );
     onairData[i] = parseInt(
-      posts
-        .filter((obj) => obj.On_Air_Status === "Completed")
-        .filter(
-          (obj) => obj.On_Air_Date.toString().slice(0, 7) === monthsArray[i]
-        ).length,
-      10
+      posts.filter((obj) => obj.On_Air_Status === "Completed").length
     );
   }
   // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -673,7 +642,7 @@ function getHandOverData(posts) {
       ).length
   );
 
-  // console.log(handOverData);
+  //console.log(handOverData);
   return handOverData;
 }
 

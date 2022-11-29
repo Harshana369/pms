@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import windowsFilled from '@iconify/icons-eva/radio-outline';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import { Button, Card, Typography } from '@mui/material';
 // ----------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -37,6 +37,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 672;
 
 export default function AppItemOrders({ patData }) {
+  const url = 'http://172.22.110.186';
   // const [PATData, setData1] = useState();
   // useEffect(() => {
   //   axios
@@ -52,9 +53,17 @@ export default function AppItemOrders({ patData }) {
 
   const TOTAL = patData;
 
+  const handleClickOpen = () => {
+    window.open(
+      `${url}/DatabasesMobitelProjects/AllMobitelPatPassData`,
+      'PatPass Details',
+      'width=1000px,height=400px'
+    );
+  };
+
   return (
     <RootStyle>
-      <IconWrapperStyle>
+      <IconWrapperStyle onClick={handleClickOpen}>
         <Icon icon={windowsFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{TOTAL}</Typography>

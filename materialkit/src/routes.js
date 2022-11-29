@@ -83,6 +83,10 @@ import MobitelProjectsDatabase from './pages/MobitelProjectsDatabase';
 // Mobitel Databases
 import DatabasesMobitelProjectsAllMobitelProjects from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelProjectsPage';
 import DatabasesMobitelProjectsAllMobitelScopeData from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelScopeData';
+import DatabasesMobitelProjectsAllMobitelHandoverData from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelHandoverData';
+import DatabasesMobitelProjectsAllMobitelPatPassData from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelPatPassData';
+import DatabasesMobitelProjectsAllMobitelOnAirData from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelOnAirData';
+import DatabasesMobitelProjectsAllMobitelHoldData from './components/_dashboard/MobitelProjectDatabase/AllMobitelProjects/AllMobitelHoldData';
 import DatabasesMobitelProjectsPendingMobitelProjects from './components/_dashboard/MobitelProjectDatabase/PendingTasks/PendingTasksHome/MobitelDatabasesPendingTasksHome';
 import DatabasesMobitelProjectsPendingMobitelProjectsHODetails from './components/_dashboard/MobitelProjectDatabase/PendingTasks/HODetails/HODetailsPage';
 import DatabasesMobitelProjectsPendingMobitelProjectsAssign from './components/_dashboard/MobitelProjectDatabase/PendingTasks/Assign/AssignPage';
@@ -1448,7 +1452,42 @@ export default function Router() {
           <Navigate to="/unauthorized" />
         )
     },
-
+    {
+      path: 'DatabasesMobitelProjects/AllMobitelHandoverData',
+      element:
+        userRole === 'Admin' || userRole === 'Moderator' || userRole === 'Editor' ? (
+          <DatabasesMobitelProjectsAllMobitelHandoverData />
+        ) : (
+          <Navigate to="/unauthorized" />
+        )
+    },
+    {
+      path: 'DatabasesMobitelProjects/AllMobitelPatPassData',
+      element:
+        userRole === 'Admin' || userRole === 'Moderator' || userRole === 'Editor' ? (
+          <DatabasesMobitelProjectsAllMobitelPatPassData />
+        ) : (
+          <Navigate to="/unauthorized" />
+        )
+    },
+    {
+      path: 'DatabasesMobitelProjects/AllMobitelOnAirData',
+      element:
+        userRole === 'Admin' || userRole === 'Moderator' || userRole === 'Editor' ? (
+          <DatabasesMobitelProjectsAllMobitelOnAirData />
+        ) : (
+          <Navigate to="/unauthorized" />
+        )
+    },
+    {
+      path: 'DatabasesMobitelProjects/AllMobitelHoldData',
+      element:
+        userRole === 'Admin' || userRole === 'Moderator' || userRole === 'Editor' ? (
+          <DatabasesMobitelProjectsAllMobitelHoldData />
+        ) : (
+          <Navigate to="/unauthorized" />
+        )
+    },
     { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }

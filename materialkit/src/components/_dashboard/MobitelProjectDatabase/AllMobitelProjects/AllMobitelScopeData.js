@@ -19,7 +19,7 @@ const columns = [
   { field: 'HandoverScope', headerName: 'HandoverScope', width: 140, editable: true }
 ];
 
-export default function VisibleColumnsModelControlled() {
+export default function AllMobitelScopeData() {
   const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({});
   const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
   const [dropdownValue, setDropdownValue] = useState('All Mobitel Projects');
