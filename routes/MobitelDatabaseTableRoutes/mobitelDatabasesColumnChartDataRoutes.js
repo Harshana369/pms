@@ -141,27 +141,42 @@ function getchartData(posts) {
   // monthsArray = ['2021-02', '2021-03','2021-04', '2021-05','2021-06', '2021-07','2021-08', '2021-09','2021-10', '2021-11','2021-12', '2022-01']
 
   for (var i = 0; i < monthsCountFrom2015; i++) {
-    (mobilizeData[i] = posts.filter(
-      (obj) => obj.Mobilization_Status === "Completed"
-    ).length),
-      (installedData[i] = posts.filter(
-        (obj) => obj.Installation_Status === "Completed"
+    (mobilizeData[i] = posts
+      .filter((obj) => obj.Mobilization_Status === "Completed")
+      .filter(
+        (obj) => obj.Mobilized_Date.slice(0, 7) === monthsArray[i]
       ).length),
-      (commissioned[i] = posts.filter(
-        (obj) => obj.Commissioning_Status === "Completed"
-      ).length),
-      (sarData[i] = posts.filter(
-        (obj) => obj.SAR_Status === "Approved" || obj.SAR_Status === "PAT Only"
-      ).length),
-      (patData[i] = posts.filter(
-        (obj) =>
-          obj.PAT_Status === "Pass" ||
-          obj.PAT_Status === "Pass with minor" ||
-          obj.PAT_Status === "SAR Only"
-      ).length),
-      (onairData[i] = posts.filter(
-        (obj) => obj.On_Air_Status === "Completed"
-      ).length);
+      (installedData[i] = posts
+        .filter((obj) => obj.Installation_Status === "Completed")
+        .filter(
+          (obj) => obj.Installation_Date.slice(0, 7) === monthsArray[i]
+        ).length),
+      (commissioned[i] = posts
+        .filter((obj) => obj.Commissioning_Status === "Completed")
+        .filter(
+          (obj) => obj.Commisioned_Date.slice(0, 7) === monthsArray[i]
+        ).length),
+      (sarData[i] = posts
+        .filter(
+          (obj) =>
+            obj.SAR_Status === "Approved" || obj.SAR_Status === "PAT Only"
+        )
+        .filter((obj) => obj.SAR_Date.slice(0, 7) === monthsArray[i]).length),
+      (patData[i] = posts
+        .filter(
+          (obj) =>
+            obj.PAT_Status === "Pass" ||
+            obj.PAT_Status === "Pass with minor" ||
+            obj.PAT_Status === "SAR Only"
+        )
+        .filter(
+          (obj) => obj.PAT_Pass_Date.slice(0, 7) === monthsArray[i]
+        ).length),
+      (onairData[i] = posts
+        .filter((obj) => obj.On_Air_Status === "Completed")
+        .filter(
+          (obj) => obj.On_Air_Date.slice(0, 7) === monthsArray[i]
+        ).length);
   }
   // ----------------------------------------------------------------------------------------------------------------------------------------------
 
