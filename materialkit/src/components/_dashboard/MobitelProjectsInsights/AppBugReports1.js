@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import bugFilled from '@iconify/icons-eva/radio-outline';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import { Button, Card, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -35,11 +35,20 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 export default function AppBugReports1({ handoverData }) {
+  const url = 'http://172.22.110.186';
   const TOTAL = handoverData;
+
+  const handleClickOpen = () => {
+    window.open(
+      `${url}/DatabasesMobitelProjects/AllMobitelHandoverData`,
+      'Handover Details',
+      'width=1000px,height=400px'
+    );
+  };
 
   return (
     <RootStyle>
-      <IconWrapperStyle>
+      <IconWrapperStyle onClick={handleClickOpen}>
         <Icon icon={bugFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{TOTAL}</Typography>

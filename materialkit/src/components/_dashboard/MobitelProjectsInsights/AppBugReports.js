@@ -34,11 +34,21 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 export default function AppBugReports({ holdData }) {
+  const url = 'http://172.22.110.186';
+
   const TOTAL = holdData;
+
+  const handleClickOpen = () => {
+    window.open(
+      `${url}/DatabasesMobitelProjects/AllMobitelHoldData`,
+      'Hold Details',
+      'width=1000px,height=400px'
+    );
+  };
 
   return (
     <RootStyle>
-      <IconWrapperStyle>
+      <IconWrapperStyle onClick={handleClickOpen}>
         <Icon icon={bugFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{TOTAL}</Typography>

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Posts = require("../../models/mobitelProjectsDatabase");
+const { post } = require("./mobitelDatabasesColumnChartDataRoutes");
 
 // ------------------------- Posting sites data to the database  ---------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -554,10 +555,15 @@ function getchartDataForDashboard(posts) {
       posts
         .filter((obj) => obj.Mobilization_Status === "Completed")
         .filter(
-          (obj) => obj.Mobilized_Date.toString().slice(0, 7) === monthsArray[i]
+          (obj) =>
+            // {
+            //   console.log(obj.Mobilized_Date.toString().slice(0, 7));
+            // }
+            obj.Mobilized_Date.toString().slice(0, 7) === monthsArray[i]
         ).length,
       10
     );
+
     installedData[i] = parseInt(
       posts
         .filter((obj) => obj.Installation_Status === "Completed")
@@ -649,6 +655,14 @@ function getchartDataForDashboard(posts) {
 
   // console.log(chartData);
   return chartData;
+
+  // const data = posts.map(function (element) {
+  //   return element.Mobilized_Date;
+  // });
+
+  // console.log(data);
+
+  // return data;
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
@@ -673,7 +687,7 @@ function getHandOverData(posts) {
       ).length
   );
 
-  // console.log(handOverData);
+  //console.log(handOverData);
   return handOverData;
 }
 

@@ -49,6 +49,9 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 export default function AppWeeklySales({ scopeData }) {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
+  // const url = 'http://localhost:3000';
+
+  const url = 'http://172.22.110.186';
 
   // const [ScopeData, setData1] = useState([]);
   // useEffect(() => {
@@ -67,55 +70,29 @@ export default function AppWeeklySales({ scopeData }) {
 
   const TOTAL = scopeData;
 
-  const URL = 'http://localhost:3000';
-
   const handleClickOpen = () => {
     window.open(
-      `${URL}/DatabasesMobitelProjects/AllMobitelScopeData`,
+      `${url}/DatabasesMobitelProjects/AllMobitelScopeData`,
       'Scope Details',
       'width=1000px,height=400px'
     );
   };
-
-  const handleClose = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
-  };
+  // const handleClose = (value) => {
+  //   setOpen(false);
+  //   setSelectedValue(value);
+  // };
   return (
     <>
       <RootStyle>
-        <IconWrapperStyle>
+        <IconWrapperStyle onClick={handleClickOpen}>
           <Icon icon={site} width={24} height={24} />
         </IconWrapperStyle>
         <Typography variant="h3">{TOTAL}</Typography>
 
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Typography variant="subtitle1" sx={{ opacity: 1 }}>
           Scope
-        </Button>
+        </Typography>
       </RootStyle>
-
-      {/* <Dialog onClose={handleClose} open={open}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 500 }} aria-label="caption table">
-            <TableHead>
-              <TableRow>
-                <TableCell>ProjectName</TableCell>
-                <TableCell align="right">Count</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {scopeDataDetails.map((scopeDataDetail) => (
-                <TableRow key={scopeDataDetail._id}>
-                  <TableCell component="th" scope="row">
-                    {scopeDataDetail.ProjectName}
-                  </TableCell>
-                  <TableCell align="right">{scopeDataDetail.ProjectScope}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Dialog> */}
     </>
   );
 }
