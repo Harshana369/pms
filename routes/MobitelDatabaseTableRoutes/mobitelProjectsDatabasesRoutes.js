@@ -555,15 +555,10 @@ function getchartDataForDashboard(posts) {
       posts
         .filter((obj) => obj.Mobilization_Status === "Completed")
         .filter(
-          (obj) =>
-            // {
-            //   console.log(obj.Mobilized_Date.toString().slice(0, 7));
-            // }
-            obj.Mobilized_Date.toString().slice(0, 7) === monthsArray[i]
+          (obj) => obj.Mobilized_Date.toString().slice(0, 7) === monthsArray[i]
         ).length,
       10
     );
-
     installedData[i] = parseInt(
       posts
         .filter((obj) => obj.Installation_Status === "Completed")
