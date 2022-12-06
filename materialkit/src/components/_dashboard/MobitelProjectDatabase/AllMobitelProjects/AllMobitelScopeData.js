@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable */
 
+import React, { useState } from 'react';
 import {
   DataGrid,
   GridToolbarDensitySelector,
@@ -7,8 +8,12 @@ import {
   GridToolbarContainer,
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
-import { Stack } from '@mui/material';
 import axios from 'axios';
+import Page from '../../../../components/Page';
+
+import { Grid, Container, Stack, Typography, TextField } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import { Box } from '@mui/system';
 
 const columns = [
   { field: 'ProjectName', headerName: 'ProjectName', width: 220, editable: true },
@@ -86,8 +91,18 @@ export default function AllMobitelScopeData() {
   }, [columnVisibilityModel]);
 
   return (
-    <div style={{ height: 1000, width: '100%' }}>
+    <Box height={10000000} width="100%" backgroundColor="#000f1f">
+      <Stack alignItems="center" mb={2}>
+        <Typography variant="h6" mt={4} gutterBottom>
+          Mobitel Projects ScopeData
+        </Typography>
+      </Stack>
       <DataGrid
+        sx={{
+          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          color: 'white',
+          backgroundColor: '#000f1f'
+        }}
         rows={DetailsDataInScope}
         getRowId={(DetailsDataInScope) => DetailsDataInScope._id}
         columns={columns}
@@ -97,7 +112,13 @@ export default function AllMobitelScopeData() {
         }}
         columnVisibilityModel={columnVisibilityModel}
         onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
+        initialState={{
+          pagination: {
+            pageSize: 10000000
+          }
+        }}
+        hideFooter
       />
-    </div>
+    </Box>
   );
 }

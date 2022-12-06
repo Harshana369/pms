@@ -17,6 +17,9 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+
+/* eslint-disable */
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -49,9 +52,9 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 export default function AppWeeklySales({ scopeData }) {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
-  // const url = 'http://localhost:3000';
+  //const url = 'http://172.22.110.186';
 
-  const url = 'http://172.22.110.186';
+  const url = 'http://localhost:3000';
 
   // const [ScopeData, setData1] = useState([]);
   // useEffect(() => {

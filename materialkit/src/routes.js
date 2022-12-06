@@ -171,6 +171,7 @@ import SettingsMobitelProjectsSubContractor from './components/_dashboard/Settin
 
 // Admin matiriyal
 import Material from './pages/Material';
+import MobitelSiteEngineersDayPlan from './pages/MobitelSiteEngineersDayPlan';
 
 export default function Router() {
   const [userRole, setUserRole] = useState('Admin');
@@ -224,6 +225,16 @@ export default function Router() {
           element:
             userRole === 'Admin' || userRole === 'Moderator' ? (
               <Material />
+            ) : (
+              <Navigate to="/unauthorized" />
+            )
+        },
+
+        {
+          path: 'MobitelSiteEngineersDayPlan',
+          element:
+            userRole === 'Admin' || userRole === 'Moderator' ? (
+              <MobitelSiteEngineersDayPlan />
             ) : (
               <Navigate to="/unauthorized" />
             )

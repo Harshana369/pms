@@ -10,6 +10,7 @@ import folderFill from '@iconify/icons-eva/layout-fill';
 import activityFill from '@iconify/icons-eva/layers-fill';
 import listOutline from '@iconify/icons-eva/list-outline';
 import Settings from '@iconify/icons-eva/settings-2-fill';
+import AddchartIcon from '@mui/icons-material/Addchart';
 
 // ----------------------------------------------------------------------
 
@@ -83,6 +84,11 @@ const sidebarConfig = [
       {
         title: 'Site Engineers',
         path: '/dashboard/MobitelProjects/SiteEngineers',
+        icon: getIcon(AddchartIcon)
+      },
+      {
+        title: 'Day plan',
+        path: '/dashboard/MobitelSiteEngineersDayPlan',
         icon: getIcon(fileTextFill)
       }
     ]

@@ -24,6 +24,7 @@ import {
 const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 export const fetchMobitelData = (MobitelDropdownValue) => async (dispatch) => {
+  console.log(MobitelDropdownValue);
   try {
     dispatch({ type: MOBITEL_DATABASE_REQUEST });
     const { data } = await axiosInstance.get('/mobitelProjectsDatabases', {

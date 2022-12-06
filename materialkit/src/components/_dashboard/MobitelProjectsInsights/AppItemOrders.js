@@ -37,7 +37,8 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 672;
 
 export default function AppItemOrders({ patData }) {
-  const url = 'http://172.22.110.186';
+  // const url = 'http://172.22.110.186';
+  const url = 'http://localhost:3000';
   // const [PATData, setData1] = useState();
   // useEffect(() => {
   //   axios
