@@ -2,16 +2,16 @@ const router = require("express").Router();
 let Posts = require("../../models/columnShowHide/mobitelDatabase");
 
 router.route("/Edit").put(async (req, res) => {
-  // id = "63515e4afda7eb47137b1089";
-  id = "638586da6e0dd10807fa086f";
+  id = "63515e4afda7eb47137b1089";
+  // id = "638586da6e0dd10807fa086f";
   Posts.findByIdAndUpdate(id, req.body)
     .then((Posts) => res.json(Posts))
     .catch((err) => res.status(422).json(err));
 });
 
 router.get("/", async function (req, res) {
-  // id = "63515e4afda7eb47137b1089";
-  id = "638586da6e0dd10807fa086f";
+  id = "63515e4afda7eb47137b1089";
+  //id = "638586da6e0dd10807fa086f";
   Posts.findById(id)
     .then((Posts) => res.send(Posts))
     .catch((err) => res.status(422).json(err));

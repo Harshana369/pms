@@ -142,7 +142,7 @@ function getSevenDaysOfWeek() {
   let start = today.getDay();
   if (start == 6) {
     return days;
-    console.log(days);
+    // console.log(days);
   } else {
     return days.slice(start).concat(days.slice(0, start));
     //console.log(days.slice(start).concat(days.slice(0,start)));
@@ -500,6 +500,7 @@ function getWidthdrawnSites(posts) {
 function getPatPassData(posts) {
   var patPassData = [];
 
+  // console.log(posts);
   patPass = posts
     .filter((obj) => obj.PAT_Status === "Pass")
     .filter((obj) => obj.PAT_Pass_Date !== "").length;
@@ -511,7 +512,7 @@ function getPatPassData(posts) {
     .filter((obj) => obj.PAT_Pass_Date !== "").length;
 
   patPassData.push(patPass + patPassMinor + sarOnly);
-  //console.log(patPassData);
+  // console.log(patPassData);
   return patPassData;
 }
 

@@ -1,7 +1,11 @@
+/* eslint-disable */
+
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import {
+  Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,7 +23,9 @@ import {
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
 import Page from '../components/Page';
+import SiteEngineerDayPlanPopup from './SiteEngineerDayPlanPopup';
 
 const columns = [
   {
@@ -94,16 +100,66 @@ const columnGroupingModel = [
 ];
 
 export default function MobitelSiteEngineersDayPlan() {
-  const [open, setOpen] = React.useState(false);
+  const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+
+  const [openPopup, setOpenPopup] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
+  //---------------
+  const [options, setOptions] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [siteEName, setSiteENmae] = React.useState(null);
+  const [allSiteData, setAllSiteData] = React.useState(null);
+  const [allSiteEngineers, setAllSiteEngineers] = React.useState();
+  const load = open && options.length === 0;
 
-  const addPlan = (value) => {
-    setOpen(true);
+  const getSiteEngineersNames = async () => {
+    await axiosInstance.get('/getAllSiteEngineersName').then((res) => {
+      setAllSiteEngineers(res.data.allSiteEngineersNames);
+      setAllSiteData(res.data.allSiteData);
+    });
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const getSiteEngineerForSiteIdFunction = async () => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/getSiteEngineerForSiteData/${siteEName.Site_Engineer}`
+      );
+      setSeSite(data.Site);
+      //console.log(data.Site);
+    } catch (error) {
+      console.log(
+        error.response && error.response.data.message ? error.response.data.message : error.message
+      );
+    }
   };
+
+  React.useEffect(() => {
+    getSiteEngineersNames();
+  }, []);
+
+  React.useEffect(() => {
+    getSiteEngineerForSiteIdFunction();
+  }, [siteEName]);
+
+  //----------------Site Engineer--------------------
+  React.useEffect(() => {
+    let active = true;
+    if (!load) {
+      return undefined;
+    }
+    if (active) {
+      setOptions([...allSiteEngineers]);
+    }
+    return () => {
+      active = false;
+    };
+  }, [load]);
+  React.useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
+
   return (
     <Page title="Mobitel Projects Database | Site Enginners DayPlan">
       <Stack alignItems="center">
@@ -119,13 +175,46 @@ export default function MobitelSiteEngineersDayPlan() {
         spacing={1}
         mb={2}
       >
-        <Button color="primary" variant="outlined" on onClick={addPlan}>
+        <Button color="primary" variant="outlined" on onClick={() => setOpenPopup(true)}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={0.2}>
             <AddIcon />
             Add Plan
             {/* </Link> */}
           </Stack>
-        </Button>{' '}
+        </Button>
+
+        <Autocomplete
+          id="asynchronous-demo"
+          sx={{ width: 300, marginTop: 3 }}
+          open={open}
+          onOpen={() => {
+            setOpen(true);
+          }}
+          onClose={() => {
+            setOpen(false);
+          }}
+          isOptionEqualToValue={(option, value) => option.Site_Engineer === value.Site_Engineer}
+          getOptionLabel={(option) => option.Site_Engineer}
+          options={options}
+          loading={load}
+          value={siteEName}
+          onChange={(event, newValue) => setSiteENmae(newValue)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Site Engineers"
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <React.Fragment>
+                    {load ? <CircularProgress color="inherit" size={20} /> : null}
+                    {params.InputProps.endAdornment}
+                  </React.Fragment>
+                )
+              }}
+            />
+          )}
+        />
       </Stack>
 
       <Box
@@ -154,7 +243,7 @@ export default function MobitelSiteEngineersDayPlan() {
         />
       </Box>
 
-      <Dialog onClose={addPlan} open={open}>
+      {/* <Dialog onClose={addPlan} open={open}>
         <DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose}>
@@ -167,7 +256,13 @@ export default function MobitelSiteEngineersDayPlan() {
           <TextField id="outlined-basic" label="Outlined" variant="outlined" />
           <TextField id="outlined-basic" label="Outlined" variant="outlined" />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
+
+      <SiteEngineerDayPlanPopup
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+        siteEName={siteEName}
+      ></SiteEngineerDayPlanPopup>
     </Page>
   );
 }

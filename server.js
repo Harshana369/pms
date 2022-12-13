@@ -69,7 +69,7 @@ const vendorProjectsLastUpdates = require("./routes/VendorDatabaseTableRoutes/ve
 
 const mobitelColumnHideShow = require("./routes/columnShowHide/mobitelDatabase.js");
 const materialProjectsDatabase = require("./routes/MaterialDatabaseRoutes.js");
-
+const MobitelEngineersDayPlan = require("./routes/MobitelDatabaseTableRoutes/MobitelEngineersDayPlan.js");
 // Error Handler Middleware
 app.use(errorHandler);
 
@@ -111,6 +111,7 @@ app.use(vendorDatabasesPendingTasks);
 
 app.use(mobitelProjectsLastUpdates);
 app.use(vendorProjectsLastUpdates);
+app.use(MobitelEngineersDayPlan);
 
 require("dotenv").config({ path: "./.env" });
 
