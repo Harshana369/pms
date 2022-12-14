@@ -110,24 +110,18 @@ export default function MobitelSiteEngineersDayPlan() {
   //---------------
   const [options, setOptions] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const [siteEName, setSiteENmae] = React.useState();
+  const [siteEName, setSiteENmae] = React.useState('');
   const [allSiteData, setAllSiteData] = React.useState(null);
   const [allSiteEngineers, setAllSiteEngineers] = React.useState();
   const [seSite, setSeSite] = React.useState([]);
 
   const load = open && options.length === 0;
+  const SiteEngineer = siteEName.Site_Engineer;
 
   const dispatch = useDispatch();
 
   const SiteEngineerDayPlanDetails = useSelector((state) => state.mobitelSiteEngineerDayPlan);
   const { loading, error, SiteIdData } = SiteEngineerDayPlanDetails;
-
-  // const getSiteEngineersNames = async () => {
-  //   await axiosInstance.get('/getAllSiteEngineersName').then((res) => {
-  //     setAllSiteEngineers(res.data.allSiteEngineersNames);
-  //     setAllSiteData(res.data.allSiteData);
-  //   });
-  // };
 
   const getSiteEngineerForSiteIdFunction = async () => {
     try {
@@ -269,7 +263,7 @@ export default function MobitelSiteEngineersDayPlan() {
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
             seSite={seSite}
-            allSiteData={SiteIdData.allSiteData}
+            SiteEngineer={SiteEngineer}
           ></SiteEngineerDayPlanPopup>
         </Page>
       )}

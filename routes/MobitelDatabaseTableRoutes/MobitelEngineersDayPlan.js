@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Posts = require("../../models/mobitelProjectsDatabase");
-
+const DayPlan = require("../../models/mobitelSiteEngineerDayPlan");
 // ------------------------------------------01--------------------------------------------------------------------------
 // -----------------------  Get Site Engineers Name --------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------
@@ -167,8 +167,13 @@ function getSite(posts, postId) {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 router.post("/siteEngineerDayPlan/save", (req, res) => {
+  // const data = new Object(
+  //   siteEName:req.body.siteEName.Site_Engineer,
+
+  //   );
   // let newPost = new Posts(req.body);
 
+  console.log("uu");
   console.log(req.body);
   // newPost.save((err, posts) => {
   //   if (err) {
