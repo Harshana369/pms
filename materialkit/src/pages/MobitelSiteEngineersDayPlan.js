@@ -110,6 +110,8 @@ export default function MobitelSiteEngineersDayPlan() {
   const [siteEName, setSiteENmae] = React.useState(null);
   const [allSiteData, setAllSiteData] = React.useState(null);
   const [allSiteEngineers, setAllSiteEngineers] = React.useState();
+  const [seSite, setSeSite] = React.useState([]);
+
   const load = open && options.length === 0;
 
   const getSiteEngineersNames = async () => {
@@ -125,7 +127,7 @@ export default function MobitelSiteEngineersDayPlan() {
         `/getSiteEngineerForSiteData/${siteEName.Site_Engineer}`
       );
       setSeSite(data.Site);
-      //console.log(data.Site);
+      // console.log(data.Site);
     } catch (error) {
       console.log(
         error.response && error.response.data.message ? error.response.data.message : error.message
@@ -243,25 +245,11 @@ export default function MobitelSiteEngineersDayPlan() {
         />
       </Box>
 
-      {/* <Dialog onClose={addPlan} open={open}>
-        <DialogContent>
-          <DialogActions>
-            <Button autoFocus onClick={handleClose}>
-              <CloseIcon />
-            </Button>
-          </DialogActions>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        </DialogContent>
-      </Dialog> */}
-
       <SiteEngineerDayPlanPopup
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
-        siteEName={siteEName}
+        seSite={seSite}
+        allSiteData={allSiteData}
       ></SiteEngineerDayPlanPopup>
     </Page>
   );
