@@ -26,6 +26,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import Page from '../components/Page';
 import SiteEngineerDayPlanPopup from './SiteEngineerDayPlanPopup';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { AllSiteId } from 'src/Redux/Action/DayPlanAction';
 
 const columns = [
   {
@@ -107,19 +110,24 @@ export default function MobitelSiteEngineersDayPlan() {
   //---------------
   const [options, setOptions] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const [siteEName, setSiteENmae] = React.useState(null);
+  const [siteEName, setSiteENmae] = React.useState();
   const [allSiteData, setAllSiteData] = React.useState(null);
   const [allSiteEngineers, setAllSiteEngineers] = React.useState();
   const [seSite, setSeSite] = React.useState([]);
 
   const load = open && options.length === 0;
 
-  const getSiteEngineersNames = async () => {
-    await axiosInstance.get('/getAllSiteEngineersName').then((res) => {
-      setAllSiteEngineers(res.data.allSiteEngineersNames);
-      setAllSiteData(res.data.allSiteData);
-    });
-  };
+  const dispatch = useDispatch();
+
+  const SiteEngineerDayPlanDetails = useSelector((state) => state.mobitelSiteEngineerDayPlan);
+  const { loading, error, SiteIdData } = SiteEngineerDayPlanDetails;
+
+  // const getSiteEngineersNames = async () => {
+  //   await axiosInstance.get('/getAllSiteEngineersName').then((res) => {
+  //     setAllSiteEngineers(res.data.allSiteEngineersNames);
+  //     setAllSiteData(res.data.allSiteData);
+  //   });
+  // };
 
   const getSiteEngineerForSiteIdFunction = async () => {
     try {
@@ -136,8 +144,9 @@ export default function MobitelSiteEngineersDayPlan() {
   };
 
   React.useEffect(() => {
-    getSiteEngineersNames();
-  }, []);
+    // getSiteEngineersNames();
+    dispatch(AllSiteId());
+  }, [dispatch]);
 
   React.useEffect(() => {
     getSiteEngineerForSiteIdFunction();
@@ -150,7 +159,7 @@ export default function MobitelSiteEngineersDayPlan() {
       return undefined;
     }
     if (active) {
-      setOptions([...allSiteEngineers]);
+      setOptions([...SiteIdData.allSiteEngineersNames]);
     }
     return () => {
       active = false;
@@ -163,94 +172,107 @@ export default function MobitelSiteEngineersDayPlan() {
   }, [open]);
 
   return (
-    <Page title="Mobitel Projects Database | Site Enginners DayPlan">
-      <Stack alignItems="center">
-        <Typography variant="h6" gutterBottom>
-          Day plan
-        </Typography>
-      </Stack>
-
-      <Stack
-        direction="row"
-        alignItems="flex-end"
-        justifyContent="space-between"
-        spacing={1}
-        mb={2}
-      >
-        <Button color="primary" variant="outlined" on onClick={() => setOpenPopup(true)}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={0.2}>
-            <AddIcon />
-            Add Plan
-            {/* </Link> */}
+    <>
+      {loading ? (
+        <h1>Loding...</h1>
+      ) : error ? (
+        <h1>error...</h1>
+      ) : (
+        <Page title="Mobitel Projects Database | Site Enginners DayPlan">
+          <Stack alignItems="center">
+            <Typography variant="h6" gutterBottom>
+              Day plan
+            </Typography>
           </Stack>
-        </Button>
 
-        <Autocomplete
-          id="asynchronous-demo"
-          sx={{ width: 300, marginTop: 3 }}
-          open={open}
-          onOpen={() => {
-            setOpen(true);
-          }}
-          onClose={() => {
-            setOpen(false);
-          }}
-          isOptionEqualToValue={(option, value) => option.Site_Engineer === value.Site_Engineer}
-          getOptionLabel={(option) => option.Site_Engineer}
-          options={options}
-          loading={load}
-          value={siteEName}
-          onChange={(event, newValue) => setSiteENmae(newValue)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Site Engineers"
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {load ? <CircularProgress color="inherit" size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                )
+          <Stack
+            direction="row"
+            alignItems="flex-end"
+            justifyContent="space-between"
+            spacing={1}
+            mb={2}
+          >
+            <Button color="primary" variant="outlined" on onClick={() => setOpenPopup(true)}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                spacing={0.2}
+              >
+                <AddIcon />
+                Add Plan
+                {/* </Link> */}
+              </Stack>
+            </Button>
+
+            <Autocomplete
+              id="asynchronous-demo"
+              sx={{ width: 300, marginTop: 3 }}
+              open={open}
+              onOpen={() => {
+                setOpen(true);
               }}
+              onClose={() => {
+                setOpen(false);
+              }}
+              isOptionEqualToValue={(option, value) => option.Site_Engineer === value.Site_Engineer}
+              getOptionLabel={(option) => option.Site_Engineer}
+              options={options}
+              loading={load}
+              value={siteEName}
+              onChange={(event, newValue) => setSiteENmae(newValue)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Site Engineers"
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <React.Fragment>
+                        {load ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </React.Fragment>
+                    )
+                  }}
+                />
+              )}
             />
-          )}
-        />
-      </Stack>
+          </Stack>
 
-      <Box
-        sx={{
-          height: 515,
-          width: '100%'
-        }}
-      >
-        <DataGrid
-          sx={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
-            color: 'rgb(198,198,198)',
-            '& .naming-group-plan': {
-              backgroundColor: 'rgba(255, 7, 0, 0.55)'
-            },
-            '& .naming-group-result': {
-              backgroundColor: '#4834d4'
-            }
-          }}
-          rows={rows}
-          columns={columns}
-          experimentalFeatures={{ columnGrouping: true }}
-          disableSelectionOnClick
-          columnGroupingModel={columnGroupingModel}
-          checkboxSelection={false}
-        />
-      </Box>
+          <Box
+            sx={{
+              height: 515,
+              width: '100%'
+            }}
+          >
+            <DataGrid
+              sx={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                color: 'rgb(198,198,198)',
+                '& .naming-group-plan': {
+                  backgroundColor: 'rgba(255, 7, 0, 0.55)'
+                },
+                '& .naming-group-result': {
+                  backgroundColor: '#4834d4'
+                }
+              }}
+              rows={rows}
+              columns={columns}
+              experimentalFeatures={{ columnGrouping: true }}
+              disableSelectionOnClick
+              columnGroupingModel={columnGroupingModel}
+              checkboxSelection={false}
+            />
+          </Box>
 
-      <SiteEngineerDayPlanPopup
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-        seSite={seSite}
-        allSiteData={allSiteData}
-      ></SiteEngineerDayPlanPopup>
-    </Page>
+          <SiteEngineerDayPlanPopup
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+            seSite={seSite}
+            allSiteData={SiteIdData.allSiteData}
+          ></SiteEngineerDayPlanPopup>
+        </Page>
+      )}
+    </>
   );
 }

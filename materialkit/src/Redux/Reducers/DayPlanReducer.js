@@ -1,8 +1,4 @@
-import {
-  SITE_ID_REQUEST,
-  SITE_ID_SUCCESS,
-  SITE_ID_FAIL,
-} from "../Constants/DayPlanConstants";
+import { SITE_ID_REQUEST, SITE_ID_SUCCESS, SITE_ID_FAIL } from '../Constants/DayPlanConstants';
 
 export const SiteIdReducer = (state = { SiteIdData: [] }, action) => {
   switch (action.type) {

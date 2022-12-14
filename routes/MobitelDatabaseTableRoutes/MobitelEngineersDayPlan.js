@@ -88,84 +88,103 @@ function getSite(posts, postId) {
 // -----------------------  Get Site_Id of Site Engineers DayPlan from MobitelDatabase --------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------
 
-router.get("/allSiteID", (req, res) => {
-  Posts.find().exec((err, posts) => {
-    if (err) {
-      return res.status(400).json({
-        error: err,
-      });
-    }
-    return res.status(200).json({
-      success: true,
-      AllSite: getAllSiteId(posts),
-    });
-  });
-});
+// router.get("/allSiteID", (req, res) => {
+//   Posts.find().exec((err, posts) => {
+//     if (err) {
+//       return res.status(400).json({
+//         error: err,
+//       });
+//     }
+//     return res.status(200).json({
+//       success: true,
+//       AllSite: getAllSiteId(posts),
+//     });
+//   });
+// });
 
 // --------------------------------------------------------------------------------------------------------------------
 // -----------------------  Get Site_Id for Scope Data --------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------
 
-router.route("/getScopeData/:id").get(async (req, res) => {
-  //   let postId = "62e90ff2092ec9454c92a0c0";
+// router.route("/getScopeData/:id").get(async (req, res) => {
+//   //   let postId = "62e90ff2092ec9454c92a0c0";
 
-  await Posts.find().exec((err, posts) => {
-    let postId = req.params.id;
+//   await Posts.find().exec((err, posts) => {
+//     let postId = req.params.id;
 
-    if (err) {
-      return res.status(400).json({
-        error: err,
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      AllScopeObj: getAllScopeObj(posts, postId),
-    });
-  });
-});
-
-// router("/getScopeData/:id").get(async (req, res) => {
-//   let postId = req.params.id;
-//   console.log(postId);
-//   await Posts.findById(postId, (err, post) => {
 //     if (err) {
-//       return res.status(400).json({ success: false, err });
+//       return res.status(400).json({
+//         error: err,
+//       });
 //     }
+
 //     return res.status(200).json({
 //       success: true,
-//       post,
+//       AllScopeObj: getAllScopeObj(posts, postId),
 //     });
 //   });
 // });
 
-function getAllSiteId(posts) {
-  const reformattedArray = posts.map(({ Site_ID, _id, Scope }) => ({
-    Site_ID,
-    _id,
-    Scope,
-  }));
-  const filteredArray = reformattedArray.filter(
-    (value, index, self) =>
-      index === self.findIndex((t) => t.Site_ID === value.Site_ID)
-  );
-  //   console.log(filteredArray);
-  return filteredArray;
-}
+// // router("/getScopeData/:id").get(async (req, res) => {
+// //   let postId = req.params.id;
+// //   console.log(postId);
+// //   await Posts.findById(postId, (err, post) => {
+// //     if (err) {
+// //       return res.status(400).json({ success: false, err });
+// //     }
+// //     return res.status(200).json({
+// //       success: true,
+// //       post,
+// //     });
+// //   });
+// // });
 
-// ----------------------------
+// function getAllSiteId(posts) {
+//   const reformattedArray = posts.map(({ Site_ID, _id, Scope }) => ({
+//     Site_ID,
+//     _id,
+//     Scope,
+//   }));
+//   const filteredArray = reformattedArray.filter(
+//     (value, index, self) =>
+//       index === self.findIndex((t) => t.Site_ID === value.Site_ID)
+//   );
+//   //   console.log(filteredArray);
+//   return filteredArray;
+// }
 
-function getAllScopeObj(posts, postId) {
-  var newArray = posts.filter(function (el) {
-    return el.Site_ID === postId;
-  });
-  //console.log(newArray);
-  return newArray;
-}
+// // ----------------------------
+
+// function getAllScopeObj(posts, postId) {
+//   var newArray = posts.filter(function (el) {
+//     return el.Site_ID === postId;
+//   });
+//   //console.log(newArray);
+//   return newArray;
+// }
+
+// ------------------------- Posting sites data to the database  ---------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+router.post("/siteEngineerDayPlan/save", (req, res) => {
+  // let newPost = new Posts(req.body);
+
+  console.log(req.body);
+  // newPost.save((err, posts) => {
+  //   if (err) {
+  //     return res.status(400).json({
+  //       error: err,
+  //     });
+  //   }
+  //   return res.status(200).json({
+  //     success: "Project Details Added Successfully",
+  //   });
+  // });
+});
 
 module.exports = router;
 
-//   const Data = reformattedArray.map((object) => object.Site_ID);
-//let filteredArray = [...new Set(reformattedArray)];
-//console.log(filteredArray);
-//   return filteredArray;
+// //   const Data = reformattedArray.map((object) => object.Site_ID);
+// //let filteredArray = [...new Set(reformattedArray)];
+// //console.log(filteredArray);
+// //   return filteredArray;

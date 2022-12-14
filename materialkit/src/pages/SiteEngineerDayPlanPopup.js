@@ -21,8 +21,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import moment from 'moment';
+import axios from 'axios';
 
 /* eslint-disable */
+
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 export default function SiteEngineerDayPlanPopup(props) {
   const [options, setOptions] = React.useState([]);
@@ -31,6 +34,7 @@ export default function SiteEngineerDayPlanPopup(props) {
   const [selectedScope, setSelectedScope] = React.useState();
   const [scope, setScope] = React.useState([null]);
   const [value, setValue] = React.useState('Enter Date');
+  const [plannedWork, setPlannedWork] = React.useState();
 
   const load = open && options.length === 0;
 
@@ -73,19 +77,31 @@ export default function SiteEngineerDayPlanPopup(props) {
     }
   }, [open]);
 
-  // React.useEffect(() => {
-  //   handleRowClick();
-  // }, [siteName]);
+  React.useEffect(() => {
+    handleRowClick();
+  }, [siteName]);
 
-  const getdeta = () => {
+  async function saveDayPlan() {
+    // console.log(value);
+    // console.log(siteName.Site_ID);
     // console.log(selectedScope);
-    // console.log(`${value.$y}-${value.$M + 1}-${value.$D}`);
-    // console.log(value.$y);
+    // console.log(plannedWork);
 
-    // console.log(value.$M + 1);
-
-    console.log(value);
-  };
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      await axiosInstance.post(
+        `/siteEngineerDayPlan/save`,
+        { value, siteName, selectedScope, plannedWork },
+        config
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleChange = (event) => {
     setSelectedScope(event.target.value);
@@ -191,11 +207,6 @@ export default function SiteEngineerDayPlanPopup(props) {
           </FormControl>
         </Stack>
 
-        {/* <TextField label="Village" /> */}
-        {/* <TextField label="Village" />
-          <TextField label="Village" />
-          <TextField label="Village" /> */}
-
         <Stack
           spacing={1}
           direction="row"
@@ -207,23 +218,19 @@ export default function SiteEngineerDayPlanPopup(props) {
             maxWidth: '100%'
           }}
         >
-          <TextField fullWidth label="fullWidth" id="fullWidth" />
+          <TextField
+            fullWidth
+            label="Planned Work"
+            id="fullWidth"
+            value={plannedWork}
+            onChange={(e) => {
+              setPlannedWork(e.target.value);
+            }}
+          />
         </Stack>
-        <button onClick={getdeta}>Click</button>
-        {/* <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
-          Select Result
-        </Typography> */}
-
-        {/* <Stack
-          spacing={1}
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={2}
-        >
-          <TextField label="Village" />
-          <TextField label="Village" />
-        </Stack> */}
+        <Button color="primary" variant="outlined" onClick={saveDayPlan}>
+          Submit Button
+        </Button>
       </DialogContent>
     </Dialog>
   );
