@@ -49,26 +49,24 @@ export default function SiteEngineerDayPlanPopup(props) {
       const { data } = await axiosInstance.get('/getAllSiteData');
       setAllSiteData(data.allSiteData);
     } catch (error) {
-      console.log(
-        error.response && error.response.data.message ? error.response.data.message : error.message
-      );
+      console.log(error);
     }
   };
 
-  const handleRowClick = () => {
-    const selectedSiteId = siteName.Site_ID;
-    const reformattedArray = allSiteData.map(({ Site_ID, Scope }) => ({
-      Site_ID,
-      Scope
-    }));
-    var newArray = reformattedArray.filter(function (el) {
-      return el.Site_ID === selectedSiteId;
-    });
-    const Data = newArray.map((object) => object.Scope);
-    let Temp = [...new Set(Data)];
-    setScope(Temp);
-    // return Temp;
-  };
+  // const handleRowClick = () => {
+  //   const selectedSiteId = siteName.Site_ID;
+  //   const reformattedArray = allSiteData.map(({ Site_ID, Scope }) => ({
+  //     Site_ID,
+  //     Scope
+  //   }));
+  //   var newArray = reformattedArray.filter(function (el) {
+  //     return el.Site_ID === selectedSiteId;
+  //   });
+  //   const Data = newArray.map((object) => object.Scope);
+  //   let Temp = [...new Set(Data)];
+  //   setScope(Temp);
+  //   // return Temp;
+  // };
 
   //----------------Site ID--------------------
   React.useEffect(() => {
@@ -90,7 +88,7 @@ export default function SiteEngineerDayPlanPopup(props) {
   }, [open]);
 
   React.useEffect(() => {
-    handleRowClick();
+    // handleRowClick();
   }, [siteName]);
 
   React.useEffect(() => {

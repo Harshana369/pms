@@ -213,10 +213,28 @@ router.get("/getSiteEngineerForTable", (req, res) => {
         error: err,
       });
     }
-    return res.status(200).json({
-      success: true,
-      siteEngineerForTable: posts,
+    return res.status(200).json(posts);
+  });
+});
+
+// -----------------------------------------06---------------------------------------------------------------------------
+// ------------------------- Site Engineer For Table Loading  ---------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+router.route("/getSiteEngineerForTableLoad/:id").get(async (req, res) => {
+  await DayPlan.find().exec((err, posts) => {
+    let postId = req.params.id;
+    // console.log(postId);
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+
+    var uniqueTableArray = posts.filter(function (el) {
+      return el.SiteEngineer === postId;
     });
+    return res.status(200).json(uniqueTableArray);
   });
 });
 

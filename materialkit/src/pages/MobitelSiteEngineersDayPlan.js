@@ -28,11 +28,13 @@ import Page from '../components/Page';
 import SiteEngineerDayPlanPopup from './SiteEngineerDayPlanPopup';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { AllSiteId } from 'src/Redux/Action/DayPlanAction';
+import {
+  AllSiteId,
+  getSiteEngineerForTableData,
+  getUniqueSiteEngineerForTableLoad
+} from 'src/Redux/Action/DayPlanAction';
 
 const columns = [
-  { field: '_id', headerName: 'ID', width: 100 },
-
   { field: 'planDate', headerName: 'Plan Date', width: 100 },
   {
     field: 'sName',
@@ -68,7 +70,7 @@ const columns = [
 
 const rows = [
   {
-    _id: '001',
+    id: '001',
     planDate: '2022-12-02',
     sName: 'Test01',
     selectedScope: 'Relevant scope to Test01',
@@ -76,14 +78,19 @@ const rows = [
     Site_Status: 'PAT Submitted',
     Result_Date: '2022-12-02',
     Comment: 'Text'
+  },
+  {
+    id: '002',
+    SiteEngineer: 'Dumindu Chamikara',
+    createdAt: '2022-12-15T05:47:39.637Z',
+    planDate: '2022-12-10',
+    plannedWork: 'hhhhh',
+    sName: 'KLBEN1',
+    selectedScope: '1. Miscellaneous HO Huawei2022',
+    updatedAt: '2022-12-15T05:47:39.637Z',
+    __v: 0,
+    _id: '639ab4fb418df3414472db14'
   }
-  // {
-  //   id: '002',
-  //   Plan_Date: '2023-11-02',
-  //   Site_ID: 'Test03',
-  //   Scope: 'WWWWW scope ',
-  //   Planned_work: 'Text'
-  // }
 ];
 
 const columnGroupingModel = [
@@ -118,10 +125,17 @@ export default function MobitelSiteEngineersDayPlan() {
 
   const load = open && options.length === 0;
 
+  // const dispatchSE = useDispatch();
+  // const dispatchQT = useDispatch();
   const dispatch = useDispatch();
 
   const SiteEngineerDayPlanDetails = useSelector((state) => state.mobitelSiteEngineerDayPlan);
   const { loading, error, SiteIdData } = SiteEngineerDayPlanDetails;
+
+  const AllTableDetails = useSelector((state) => state.allTableData);
+  const { allTableLoading, AllTableData, allTableError } = AllTableDetails;
+
+  console.log(AllTableData);
 
   const getSiteEngineerForSiteIdFunction = async () => {
     try {
@@ -137,29 +151,57 @@ export default function MobitelSiteEngineersDayPlan() {
     }
   };
 
-  const getSiteEngineerForTableData = async () => {
-    try {
-      const { data } = await axiosInstance.get('/getSiteEngineerForTable');
-      // console.log(data.siteEngineerForTable);
-      setSiteEngineerForTable(data.siteEngineerForTable);
-    } catch (error) {
-      console.log(
-        error.response && error.response.data.message ? error.response.data.message : error.message
-      );
-    }
-  };
+  //   const getSiteEngineerForTableData = async () => {
+  //     try{
+  //         const { data } = await axiosInstance.get('/getSiteEngineerForTable');
+
+  //         setSiteEngineerForTable(data)
+  //     } catch (error){
+  //  console.log(
+  //    error.response && error.response.data.message ? error.response.data.message : error.message
+  //  );
+  //     }
+  //   }
+
+  // const getUniqueSiteEngineerForTableLoad = async () => {
+  //   try {
+  //     const { data } = await axiosInstance.get(
+  //       `/getSiteEngineerForTableLoad/${siteEName.Site_Engineer}`
+  //     );
+
+  //     setSiteEngineerForTable(data);
+  //   } catch (error) {
+  //     console.log(
+  //       error.response && error.response.data.message ? error.response.data.message : error.message
+  //     );
+  //   }
+  // };
+
+  React.useEffect(() => {
+    getSiteEngineerForSiteIdFunction();
+    // getUniqueSiteEngineerForTableLoad();
+  }, [siteEName]);
+
+  const n = 'Yomal Kodagoda';
+  // console.log(siteEName.Site_Engineer);
+  React.useEffect(() => {
+    console.log('select siteEngineerName');
+    dispatch(getUniqueSiteEngineerForTableLoad(siteEName));
+  }, [siteEName, dispatch]);
+
+  React.useEffect(() => {
+    console.log('all Table  Data SE');
+    dispatch(getSiteEngineerForTableData());
+  }, [dispatch]);
 
   React.useEffect(() => {
     dispatch(AllSiteId());
   }, [dispatch]);
 
   React.useEffect(() => {
-    getSiteEngineerForTableData();
-  }, []);
-
-  React.useEffect(() => {
-    getSiteEngineerForSiteIdFunction();
-  }, [siteEName]);
+    console.log('all Table  Data SE');
+    dispatch(getSiteEngineerForTableData());
+  }, [dispatch]);
 
   //----------------Site Engineer--------------------
   React.useEffect(() => {
@@ -250,26 +292,32 @@ export default function MobitelSiteEngineersDayPlan() {
             width: '100%'
           }}
         >
-          <DataGrid
-            sx={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              color: 'rgb(198,198,198)',
-              '& .naming-group-plan': {
-                backgroundColor: 'rgba(255, 7, 0, 0.55)'
-              },
-              '& .naming-group-result': {
-                backgroundColor: '#4834d4'
-              }
-            }}
-            rows={siteEngineerForTable}
-            columns={columns}
-            getRowId={(siteEngineerForTable) => siteEngineerForTable._id}
-            // getRowId={(rows) => rows._id}
-            experimentalFeatures={{ columnGrouping: true }}
-            disableSelectionOnClick
-            columnGroupingModel={columnGroupingModel}
-            checkboxSelection={false}
-          />
+          {allTableLoading ? (
+            <h1>loading...</h1>
+          ) : allTableError ? (
+            <h1>error..</h1>
+          ) : (
+            <DataGrid
+              sx={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                color: 'rgb(198,198,198)',
+                '& .naming-group-plan': {
+                  backgroundColor: 'rgba(255, 7, 0, 0.55)'
+                },
+                '& .naming-group-result': {
+                  backgroundColor: '#4834d4'
+                }
+              }}
+              rows={AllTableData}
+              columns={columns}
+              getRowId={(AllTableData) => AllTableData._id}
+              // getRowId={(rows) => rows._id}
+              experimentalFeatures={{ columnGrouping: true }}
+              disableSelectionOnClick
+              columnGroupingModel={columnGroupingModel}
+              checkboxSelection={false}
+            />
+          )}
         </Box>
 
         <SiteEngineerDayPlanPopup

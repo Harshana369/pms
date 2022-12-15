@@ -26,10 +26,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 //   zteScopeReducer
 // } from './Reducers/zteReducer';
 
-import { SiteIdReducer } from './Reducers/DayPlanReducer';
+import { AllTableReducer, SiteIdReducer } from './Reducers/DayPlanReducer';
 
 const reducer = combineReducers({
-  mobitelSiteEngineerDayPlan: SiteIdReducer
+  mobitelSiteEngineerDayPlan: SiteIdReducer,
+  allTableData: AllTableReducer
 });
 
 const initialState = {};
