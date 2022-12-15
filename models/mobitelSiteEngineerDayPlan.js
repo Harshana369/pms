@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema(
   {
-    Plan_Data: String,
-    Site_ID: String,
-    Scope: String,
-    Planned_Work: String,
-    Site_Status: String,
+    SiteEngineer: String,
+    planDate: String,
+    sName: String,
+    selectedScope: String,
+    plannedWork: String,
   },
   { timestamps: true }
 );

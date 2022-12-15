@@ -15,7 +15,7 @@ router.get("/getAllSiteEngineersName", (req, res) => {
     return res.status(200).json({
       success: true,
       allSiteEngineersNames: getAllSiteEngineersName(posts),
-      allSiteData: getAllsiteData(posts),
+      allSiteData: posts,
     });
   });
 });
@@ -35,11 +35,6 @@ function getAllSiteEngineersName(posts) {
   );
   //console.log(siteEngineersNames);
   return siteEngineersNames;
-}
-
-function getAllsiteData(posts) {
-  //console.log(posts);
-  return posts;
 }
 
 // -----------------------------------------02---------------------------------------------------------------------------
@@ -83,6 +78,24 @@ function getSite(posts, postId) {
   // console.log(filteredArray);
   return filteredArray;
 }
+
+// -----------------------------------------03---------------------------------------------------------------------------
+// --------------------------------  Get All site Data --------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
+
+router.get("/getAllSiteData", (req, res) => {
+  Posts.find().exec((err, posts) => {
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      allSiteData: posts,
+    });
+  });
+});
 
 // --------------------------------------------------------------------------------------------------------------------
 // -----------------------  Get Site_Id of Site Engineers DayPlan from MobitelDatabase --------------------------------------------
@@ -163,28 +176,48 @@ function getSite(posts, postId) {
 //   return newArray;
 // }
 
+// -----------------------------------------04---------------------------------------------------------------------------
 // ------------------------- Posting sites data to the database  ---------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 router.post("/siteEngineerDayPlan/save", (req, res) => {
-  // const data = new Object(
-  //   siteEName:req.body.siteEName.Site_Engineer,
+  const temp = {
+    SiteEngineer: req.body.siteEName.Site_Engineer,
+    planDate: req.body.planDate,
+    sName: req.body.sName,
+    selectedScope: req.body.selectedScope,
+    plannedWork: req.body.plannedWork,
+  };
 
-  //   );
-  // let newPost = new Posts(req.body);
+  let newPost = new DayPlan(temp);
+  newPost.save((err, posts) => {
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+    return res.status(200).json({
+      success: "DayPlan Details Added Successfully",
+    });
+  });
+});
 
-  console.log("uu");
-  console.log(req.body);
-  // newPost.save((err, posts) => {
-  //   if (err) {
-  //     return res.status(400).json({
-  //       error: err,
-  //     });
-  //   }
-  //   return res.status(200).json({
-  //     success: "Project Details Added Successfully",
-  //   });
-  // });
+// -----------------------------------------05---------------------------------------------------------------------------
+// ------------------------- Posting sites data to the database  ---------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+router.get("/getSiteEngineerForTable", (req, res) => {
+  DayPlan.find().exec((err, posts) => {
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      siteEngineerForTable: posts,
+    });
+  });
 });
 
 module.exports = router;

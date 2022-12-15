@@ -31,24 +31,33 @@ const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 export default function SiteEngineerDayPlanPopup(props) {
   const [options, setOptions] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const [siteName, setSiteName] = React.useState({});
+  const [siteName, setSiteName] = React.useState('MTTEL2');
   const [selectedScope, setSelectedScope] = React.useState();
   const [scope, setScope] = React.useState([null]);
-  const [value, setValue] = React.useState('Enter Date');
+  const [planDate, setPlanDate] = React.useState('Enter Date');
   const [plannedWork, setPlannedWork] = React.useState();
+  const [allSiteData, setAllSiteData] = React.useState([{}]);
 
   const load = open && options.length === 0;
 
   const sName = siteName.Site_ID;
 
-  const { openPopup, setOpenPopup, seSite, SiteEngineer } = props;
+  const { openPopup, setOpenPopup, seSite, siteEName } = props;
 
-  const SiteEngineerDayPlanDetails = useSelector((state) => state.mobitelSiteEngineerDayPlan);
-  const { loading, error, SiteIdData } = SiteEngineerDayPlanDetails;
+  const getSiteData = async () => {
+    try {
+      const { data } = await axiosInstance.get('/getAllSiteData');
+      setAllSiteData(data.allSiteData);
+    } catch (error) {
+      console.log(
+        error.response && error.response.data.message ? error.response.data.message : error.message
+      );
+    }
+  };
 
   const handleRowClick = () => {
     const selectedSiteId = siteName.Site_ID;
-    const reformattedArray = SiteIdData.allSiteData.map(({ Site_ID, Scope }) => ({
+    const reformattedArray = allSiteData.map(({ Site_ID, Scope }) => ({
       Site_ID,
       Scope
     }));
@@ -81,25 +90,21 @@ export default function SiteEngineerDayPlanPopup(props) {
   }, [open]);
 
   React.useEffect(() => {
-    if (!loading) {
-      handleRowClick();
-    }
+    handleRowClick();
   }, [siteName]);
 
+  React.useEffect(() => {
+    getSiteData();
+  }, []);
+
   const clearallSate = () => {
-    console.log('pl');
-    setValue('');
+    setPlanDate('');
     setSiteName('');
     setSelectedScope('');
     setPlannedWork('');
   };
 
   async function saveDayPlan() {
-    // console.log(value);
-    // console.log(siteName.Site_ID);
-    // console.log(selectedScope);
-    // console.log(plannedWork);
-
     try {
       const config = {
         headers: {
@@ -108,12 +113,15 @@ export default function SiteEngineerDayPlanPopup(props) {
       };
       await axiosInstance.post(
         `/siteEngineerDayPlan/save`,
-        { SiteEngineer, value, sName, selectedScope, plannedWork },
+        { siteEName, planDate, sName, selectedScope, plannedWork },
         config
       );
     } catch (error) {
       console.log(error);
     }
+
+    setOpenPopup(false);
+    clearallSate();
   }
 
   const handleChange = (event) => {
@@ -121,7 +129,7 @@ export default function SiteEngineerDayPlanPopup(props) {
   };
 
   const setDate = (e) => {
-    setValue(`${e.$y}-${e.$M + 1}-${e.$D}`);
+    setPlanDate(`${e.$y}-${e.$M + 1}-${e.$D}`);
   };
 
   return (
@@ -157,7 +165,7 @@ export default function SiteEngineerDayPlanPopup(props) {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Select Date"
-                value={value}
+                value={planDate}
                 onChange={setDate}
                 renderInput={(params) => <TextField {...params} />}
               />

@@ -31,24 +31,21 @@ import { useDispatch } from 'react-redux';
 import { AllSiteId } from 'src/Redux/Action/DayPlanAction';
 
 const columns = [
+  { field: '_id', headerName: 'ID', width: 100 },
+
+  { field: 'planDate', headerName: 'Plan Date', width: 100 },
   {
-    field: 'id',
-    headerName: 'ID',
-    width: 100
-  },
-  { field: 'Plan_Date', headerName: 'Plan Date', width: 100 },
-  {
-    field: 'Site_ID',
+    field: 'sName',
     headerName: 'Site ID',
     width: 150
   },
   {
-    field: 'Scope',
+    field: 'selectedScope',
     headerName: 'Scope',
     width: 250
   },
   {
-    field: 'Planned_work',
+    field: 'plannedWork',
     headerName: 'Planned work',
     width: 150
   },
@@ -71,15 +68,22 @@ const columns = [
 
 const rows = [
   {
-    id: '001',
-    Plan_Date: '2022-12-02',
-    Site_ID: 'Test01',
-    Scope: 'Relevant scope to Test01',
-    Planned_work: 'Text',
+    _id: '001',
+    planDate: '2022-12-02',
+    sName: 'Test01',
+    selectedScope: 'Relevant scope to Test01',
+    plannedWork: 'Text',
     Site_Status: 'PAT Submitted',
     Result_Date: '2022-12-02',
     Comment: 'Text'
   }
+  // {
+  //   id: '002',
+  //   Plan_Date: '2023-11-02',
+  //   Site_ID: 'Test03',
+  //   Scope: 'WWWWW scope ',
+  //   Planned_work: 'Text'
+  // }
 ];
 
 const columnGroupingModel = [
@@ -88,10 +92,10 @@ const columnGroupingModel = [
     headerName: 'Plan',
     headerClassName: 'naming-group-plan',
     children: [
-      { field: 'Plan_Date' },
-      { field: 'Site_ID' },
-      { field: 'Scope' },
-      { field: 'Planned_work' }
+      { field: 'planDate' },
+      { field: 'sName' },
+      { field: 'selectedScope' },
+      { field: 'plannedWork' }
     ]
   },
   {
@@ -104,19 +108,15 @@ const columnGroupingModel = [
 
 export default function MobitelSiteEngineersDayPlan() {
   const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
-
   const [openPopup, setOpenPopup] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState();
   //---------------
   const [options, setOptions] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const [siteEName, setSiteENmae] = React.useState('');
-  const [allSiteData, setAllSiteData] = React.useState(null);
-  const [allSiteEngineers, setAllSiteEngineers] = React.useState();
+  const [siteEName, setSiteENmae] = React.useState();
   const [seSite, setSeSite] = React.useState([]);
+  const [siteEngineerForTable, setSiteEngineerForTable] = React.useState();
 
   const load = open && options.length === 0;
-  const SiteEngineer = siteEName.Site_Engineer;
 
   const dispatch = useDispatch();
 
@@ -137,10 +137,25 @@ export default function MobitelSiteEngineersDayPlan() {
     }
   };
 
+  const getSiteEngineerForTableData = async () => {
+    try {
+      const { data } = await axiosInstance.get('/getSiteEngineerForTable');
+      // console.log(data.siteEngineerForTable);
+      setSiteEngineerForTable(data.siteEngineerForTable);
+    } catch (error) {
+      console.log(
+        error.response && error.response.data.message ? error.response.data.message : error.message
+      );
+    }
+  };
+
   React.useEffect(() => {
-    // getSiteEngineersNames();
     dispatch(AllSiteId());
   }, [dispatch]);
+
+  React.useEffect(() => {
+    getSiteEngineerForTableData();
+  }, []);
 
   React.useEffect(() => {
     getSiteEngineerForSiteIdFunction();
@@ -167,38 +182,33 @@ export default function MobitelSiteEngineersDayPlan() {
 
   return (
     <>
-      {loading ? (
-        <h1>Loding...</h1>
-      ) : error ? (
-        <h1>error...</h1>
-      ) : (
-        <Page title="Mobitel Projects Database | Site Enginners DayPlan">
-          <Stack alignItems="center">
-            <Typography variant="h6" gutterBottom>
-              Day plan
-            </Typography>
-          </Stack>
+      <Page title="Mobitel Projects Database | Site Enginners DayPlan">
+        <Stack alignItems="center">
+          <Typography variant="h6" gutterBottom>
+            Day plan
+          </Typography>
+        </Stack>
 
-          <Stack
-            direction="row"
-            alignItems="flex-end"
-            justifyContent="space-between"
-            spacing={1}
-            mb={2}
-          >
-            <Button color="primary" variant="outlined" on onClick={() => setOpenPopup(true)}>
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                spacing={0.2}
-              >
-                <AddIcon />
-                Add Plan
-                {/* </Link> */}
-              </Stack>
-            </Button>
+        <Stack
+          direction="row"
+          alignItems="flex-end"
+          justifyContent="space-between"
+          spacing={1}
+          mb={2}
+        >
+          <Button color="primary" variant="outlined" on onClick={() => setOpenPopup(true)}>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={0.2}>
+              <AddIcon />
+              Add Plan
+              {/* </Link> */}
+            </Stack>
+          </Button>
 
+          {loading ? (
+            <h1>Loding...</h1>
+          ) : error ? (
+            <h1>error...</h1>
+          ) : (
             <Autocomplete
               id="asynchronous-demo"
               sx={{ width: 300, marginTop: 3 }}
@@ -231,42 +241,44 @@ export default function MobitelSiteEngineersDayPlan() {
                 />
               )}
             />
-          </Stack>
+          )}
+        </Stack>
 
-          <Box
+        <Box
+          sx={{
+            height: 515,
+            width: '100%'
+          }}
+        >
+          <DataGrid
             sx={{
-              height: 515,
-              width: '100%'
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              color: 'rgb(198,198,198)',
+              '& .naming-group-plan': {
+                backgroundColor: 'rgba(255, 7, 0, 0.55)'
+              },
+              '& .naming-group-result': {
+                backgroundColor: '#4834d4'
+              }
             }}
-          >
-            <DataGrid
-              sx={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                color: 'rgb(198,198,198)',
-                '& .naming-group-plan': {
-                  backgroundColor: 'rgba(255, 7, 0, 0.55)'
-                },
-                '& .naming-group-result': {
-                  backgroundColor: '#4834d4'
-                }
-              }}
-              rows={rows}
-              columns={columns}
-              experimentalFeatures={{ columnGrouping: true }}
-              disableSelectionOnClick
-              columnGroupingModel={columnGroupingModel}
-              checkboxSelection={false}
-            />
-          </Box>
+            rows={siteEngineerForTable}
+            columns={columns}
+            getRowId={(siteEngineerForTable) => siteEngineerForTable._id}
+            // getRowId={(rows) => rows._id}
+            experimentalFeatures={{ columnGrouping: true }}
+            disableSelectionOnClick
+            columnGroupingModel={columnGroupingModel}
+            checkboxSelection={false}
+          />
+        </Box>
 
-          <SiteEngineerDayPlanPopup
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
-            seSite={seSite}
-            SiteEngineer={SiteEngineer}
-          ></SiteEngineerDayPlanPopup>
-        </Page>
-      )}
+        <SiteEngineerDayPlanPopup
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+          seSite={seSite}
+          siteEName={siteEName}
+        ></SiteEngineerDayPlanPopup>
+      </Page>
     </>
   );
 }
