@@ -94,9 +94,6 @@ export default function MobitelProjectsInsights() {
       });
   };
 
-  const MobitelDeta = useSelector((state) => state.mobitelDatabse);
-  const { loading, error, mobitelDatabaseData } = MobitelDeta;
-
   const fetchData = async () => {
     const req = await axiosInstance
       .get('/mobitelProjectsDatabases', {

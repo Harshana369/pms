@@ -263,7 +263,11 @@ function getchartData(posts) {
 
   for (var i = 0; i < 12; i++) {
     (mobilizeData[i] = posts
-      .filter((obj) => obj.Mobilization_Status === "Completed")
+      .filter(
+        (obj) =>
+          obj.Mobilization_Status === "Completed" ||
+          obj.Mobilization_Status === ""
+      )
       .filter(
         (obj) => obj.Mobilized_Date.toString().slice(0, 7) === monthsArray[i]
       ).length),

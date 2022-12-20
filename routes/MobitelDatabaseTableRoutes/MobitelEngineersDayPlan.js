@@ -51,10 +51,7 @@ router.route("/getSiteEngineerForSiteData/:id").get(async (req, res) => {
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      Site: getSite(posts, postId),
-    });
+    return res.status(200).json(getSite(posts, postId));
   });
 });
 
@@ -65,9 +62,8 @@ function getSite(posts, postId) {
     return el.Site_Engineer === postId;
   });
 
-  const reformattedArray = siteArray.map(({ Site_ID, _id }) => ({
+  const reformattedArray = siteArray.map(({ Site_ID }) => ({
     Site_ID,
-    _id,
   }));
 
   const filteredArray = reformattedArray.filter(
@@ -224,7 +220,7 @@ router.get("/getSiteEngineerForTable", (req, res) => {
 router.route("/getSiteEngineerForTableLoad/:id").get(async (req, res) => {
   await DayPlan.find().exec((err, posts) => {
     let postId = req.params.id;
-    // console.log(postId);
+
     if (err) {
       return res.status(400).json({
         error: err,
@@ -234,6 +230,8 @@ router.route("/getSiteEngineerForTableLoad/:id").get(async (req, res) => {
     var uniqueTableArray = posts.filter(function (el) {
       return el.SiteEngineer === postId;
     });
+
+    // console.log(uniqueTableArray);
     return res.status(200).json(uniqueTableArray);
   });
 });

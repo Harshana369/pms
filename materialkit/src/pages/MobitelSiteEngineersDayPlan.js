@@ -1,72 +1,59 @@
 /* eslint-disable */
 
 import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
 import {
+  DataGrid,
+  gridSortedRowIdsSelector,
+  GridToolbarContainer,
+  useGridApiContext
+} from '@mui/x-data-grid';
+import {
+  Alert,
   Autocomplete,
   Button,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Paper,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import axios from 'axios';
 import Page from '../components/Page';
 import SiteEngineerDayPlanPopup from './SiteEngineerDayPlanPopup';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import {
   AllSiteId,
+  getSiteEngineerForSiteIdFunction,
   getSiteEngineerForTableData,
   getUniqueSiteEngineerForTableLoad
 } from 'src/Redux/Action/DayPlanAction';
+import { createSvgIcon } from '@mui/material/utils';
+import moment from 'moment';
+import DayPlanTableAction from './DayPlanTableAction';
+import { GridToolbarColumnsButton } from '@mui/x-data-grid';
+import { GridToolbarFilterButton } from '@mui/x-data-grid';
+import { GridToolbarDensitySelector } from '@mui/x-data-grid';
 
-const columns = [
-  { field: 'planDate', headerName: 'Plan Date', width: 100 },
-  {
-    field: 'sName',
-    headerName: 'Site ID',
-    width: 150
-  },
-  {
-    field: 'selectedScope',
-    headerName: 'Scope',
-    width: 250
-  },
-  {
-    field: 'plannedWork',
-    headerName: 'Planned work',
-    width: 150
-  },
-  {
-    field: 'Site_Status',
-    headerName: 'Site Status',
-    width: 150
-  },
-  {
-    field: 'Result_Date',
-    headerName: 'Result Date',
-    width: 150
-  },
-  {
-    field: 'Comment',
-    headerName: 'Comment',
-    width: 150
+function Get_Result_Date(params) {
+  if (
+    typeof params.row.Result_Date === 'undefined' ||
+    params.row.Result_Date === 'Invalid date' ||
+    params.row.Result_Date == null ||
+    params.row.Result_Date === ''
+  ) {
+    return '';
   }
-];
+  return `${params.row.Result_Date}`;
+}
+
+function Set_Result_Date(params) {
+  const date = params.value;
+  const dateString = moment(date).format('YYYY-MM-DD');
+  const Result_Date = dateString;
+  return { ...params.row, Result_Date };
+}
 
 const rows = [
   {
@@ -93,104 +80,99 @@ const rows = [
   }
 ];
 
-const columnGroupingModel = [
-  {
-    groupId: 'Plan_data',
-    headerName: 'Plan',
-    headerClassName: 'naming-group-plan',
-    children: [
-      { field: 'planDate' },
-      { field: 'sName' },
-      { field: 'selectedScope' },
-      { field: 'plannedWork' }
-    ]
-  },
-  {
-    groupId: 'Result_data',
-    headerName: 'Result',
-    headerClassName: 'naming-group-result',
-    children: [{ field: 'Site_Status' }, { field: 'Result_Date' }, { field: 'Comment' }]
-  }
-];
-
 export default function MobitelSiteEngineersDayPlan() {
-  const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
   const [openPopup, setOpenPopup] = React.useState(false);
   //---------------
-  const [options, setOptions] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
   const [siteEName, setSiteENmae] = React.useState();
-  const [seSite, setSeSite] = React.useState([]);
-  const [siteEngineerForTable, setSiteEngineerForTable] = React.useState();
-
-  const load = open && options.length === 0;
-
-  // const dispatchSE = useDispatch();
-  // const dispatchQT = useDispatch();
+  const [rowId, setRowId] = React.useState(null);
   const dispatch = useDispatch();
-
   const SiteEngineerDayPlanDetails = useSelector((state) => state.mobitelSiteEngineerDayPlan);
   const { loading, error, SiteIdData } = SiteEngineerDayPlanDetails;
 
   const AllTableDetails = useSelector((state) => state.allTableData);
-  const { allTableLoading, AllTableData, allTableError } = AllTableDetails;
+  const {
+    SiteEngineerForSitesLoading,
+    AllTableData,
+    allTableError,
+    uniqueTableLoading,
+    uniqueTableError
+  } = AllTableDetails;
 
-  console.log(AllTableData);
+  const columns = [
+    { field: 'planDate', headerName: 'Plan Date', width: 150 },
+    {
+      field: 'sName',
+      headerName: 'Site ID',
+      width: 150
+    },
+    {
+      field: 'selectedScope',
+      headerName: 'Scope',
+      width: 250
+    },
+    {
+      field: 'plannedWork',
+      headerName: 'Planned work',
+      width: 150
+    },
+    {
+      field: 'Site_Status',
+      headerName: 'Site Status',
+      width: 150,
+      type: 'singleSelect',
+      editable: true,
+      valueOptions: ['PAT Submitted', 'Commissioned', 'installed/Tx Pending', 'Hold']
+    },
+    {
+      field: 'Result_Date',
+      headerName: 'Result Date',
+      width: 150,
+      type: 'date',
 
-  const getSiteEngineerForSiteIdFunction = async () => {
-    try {
-      const { data } = await axiosInstance.get(
-        `/getSiteEngineerForSiteData/${siteEName.Site_Engineer}`
-      );
-      setSeSite(data.Site);
-      // console.log(data.Site);
-    } catch (error) {
-      console.log(
-        error.response && error.response.data.message ? error.response.data.message : error.message
-      );
+      valueGetter: Get_Result_Date,
+      valueSetter: Set_Result_Date,
+      editable: true
+    },
+    {
+      field: 'Comment',
+      headerName: 'Comment',
+      width: 150,
+      editable: true
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      type: 'actions',
+      renderCell: (params) => <DayPlanTableAction {...{ params, rowId, setRowId }} />
     }
-  };
+  ];
 
-  //   const getSiteEngineerForTableData = async () => {
-  //     try{
-  //         const { data } = await axiosInstance.get('/getSiteEngineerForTable');
-
-  //         setSiteEngineerForTable(data)
-  //     } catch (error){
-  //  console.log(
-  //    error.response && error.response.data.message ? error.response.data.message : error.message
-  //  );
-  //     }
-  //   }
-
-  // const getUniqueSiteEngineerForTableLoad = async () => {
-  //   try {
-  //     const { data } = await axiosInstance.get(
-  //       `/getSiteEngineerForTableLoad/${siteEName.Site_Engineer}`
-  //     );
-
-  //     setSiteEngineerForTable(data);
-  //   } catch (error) {
-  //     console.log(
-  //       error.response && error.response.data.message ? error.response.data.message : error.message
-  //     );
-  //   }
-  // };
+  const columnGroupingModel = [
+    {
+      groupId: 'Plan_data',
+      headerName: 'Plan',
+      headerClassName: 'naming-group-plan',
+      children: [
+        { field: 'planDate' },
+        { field: 'sName' },
+        { field: 'selectedScope' },
+        { field: 'plannedWork' }
+      ]
+    },
+    {
+      groupId: 'Result_data',
+      headerName: 'Result',
+      headerClassName: 'naming-group-result',
+      children: [{ field: 'Site_Status' }, { field: 'Result_Date' }, { field: 'Comment' }]
+    }
+  ];
 
   React.useEffect(() => {
-    getSiteEngineerForSiteIdFunction();
-    // getUniqueSiteEngineerForTableLoad();
-  }, [siteEName]);
-
-  const n = 'Yomal Kodagoda';
-  // console.log(siteEName.Site_Engineer);
-  React.useEffect(() => {
-    console.log('select siteEngineerName');
     dispatch(getUniqueSiteEngineerForTableLoad(siteEName));
+    dispatch(getSiteEngineerForSiteIdFunction(siteEName));
   }, [siteEName, dispatch]);
 
   React.useEffect(() => {
-    console.log('all Table  Data SE');
     dispatch(getSiteEngineerForTableData());
   }, [dispatch]);
 
@@ -198,33 +180,49 @@ export default function MobitelSiteEngineersDayPlan() {
     dispatch(AllSiteId());
   }, [dispatch]);
 
-  React.useEffect(() => {
-    console.log('all Table  Data SE');
-    dispatch(getSiteEngineerForTableData());
-  }, [dispatch]);
-
   //----------------Site Engineer--------------------
-  React.useEffect(() => {
-    let active = true;
-    if (!load) {
-      return undefined;
-    }
-    if (active) {
-      setOptions([...SiteIdData.allSiteEngineersNames]);
-    }
-    return () => {
-      active = false;
+
+  const defaultProps = {
+    options: SiteIdData.allSiteEngineersNames,
+    getOptionLabel: (option) => option.Site_Engineer
+  };
+
+  const getUnfilteredRows = ({ apiRef }) => gridSortedRowIdsSelector(apiRef);
+
+  const ExportIcon = createSvgIcon(
+    <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z" />,
+    'SaveAlt'
+  );
+
+  const CustomToolbar = () => {
+    const apiRef = useGridApiContext();
+
+    const handleExport = (options) => apiRef.current.exportDataAsCsv(options);
+
+    const buttonBaseProps = {
+      color: 'primary',
+      size: 'small',
+      startIcon: <ExportIcon />
     };
-  }, [load]);
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
+
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <Button
+          {...buttonBaseProps}
+          onClick={() => handleExport({ getRowsToExport: getUnfilteredRows })}
+        >
+          All Database
+        </Button>
+      </GridToolbarContainer>
+    );
+  };
 
   return (
     <>
-      <Page title="Mobitel Projects Database | Site Enginners DayPlan">
+      <Page title="Site Enginners DayPlan">
         <Stack alignItems="center">
           <Typography variant="h6" gutterBottom>
             Day plan
@@ -247,40 +245,19 @@ export default function MobitelSiteEngineersDayPlan() {
           </Button>
 
           {loading ? (
-            <h1>Loding...</h1>
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
           ) : error ? (
             <h1>error...</h1>
           ) : (
             <Autocomplete
-              id="asynchronous-demo"
               sx={{ width: 300, marginTop: 3 }}
-              open={open}
-              onOpen={() => {
-                setOpen(true);
-              }}
-              onClose={() => {
-                setOpen(false);
-              }}
-              isOptionEqualToValue={(option, value) => option.Site_Engineer === value.Site_Engineer}
-              getOptionLabel={(option) => option.Site_Engineer}
-              options={options}
-              loading={load}
-              value={siteEName}
-              onChange={(event, newValue) => setSiteENmae(newValue)}
+              {...defaultProps}
+              inputValue={siteEName}
+              onChange={(event, newValue) => setSiteENmae(newValue?.siteEName || newValue)}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Site Engineers"
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {load ? <CircularProgress color="inherit" size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
-                    )
-                  }}
-                />
+                <TextField {...params} label="Site Engineers" variant="standard" />
               )}
             />
           )}
@@ -292,10 +269,12 @@ export default function MobitelSiteEngineersDayPlan() {
             width: '100%'
           }}
         >
-          {allTableLoading ? (
-            <h1>loading...</h1>
-          ) : allTableError ? (
-            <h1>error..</h1>
+          {uniqueTableLoading ? (
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
+          ) : uniqueTableError ? (
+            <Alert severity="error">Just select the Site Engineer name</Alert>
           ) : (
             <DataGrid
               sx={{
@@ -310,12 +289,13 @@ export default function MobitelSiteEngineersDayPlan() {
               }}
               rows={AllTableData}
               columns={columns}
+              components={{ Toolbar: CustomToolbar }}
               getRowId={(AllTableData) => AllTableData._id}
-              // getRowId={(rows) => rows._id}
               experimentalFeatures={{ columnGrouping: true }}
               disableSelectionOnClick
               columnGroupingModel={columnGroupingModel}
               checkboxSelection={false}
+              onCellEditCommit={(params) => setRowId(params.id)}
             />
           )}
         </Box>
@@ -323,7 +303,6 @@ export default function MobitelSiteEngineersDayPlan() {
         <SiteEngineerDayPlanPopup
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
-          seSite={seSite}
           siteEName={siteEName}
         ></SiteEngineerDayPlanPopup>
       </Page>

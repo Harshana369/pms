@@ -29,20 +29,26 @@ import { useSelector } from 'react-redux';
 const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 export default function SiteEngineerDayPlanPopup(props) {
-  const [options, setOptions] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
-  const [siteName, setSiteName] = React.useState('MTTEL2');
+  const date = new Date();
+
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let currentDate = `${year}-${month}-${day}`;
+
+  const [siteName, setSiteName] = React.useState();
+  const [selectedId, setSelectedId] = React.useState();
   const [selectedScope, setSelectedScope] = React.useState();
   const [scope, setScope] = React.useState([null]);
-  const [planDate, setPlanDate] = React.useState('Enter Date');
+  const [planDate, setPlanDate] = React.useState(currentDate);
   const [plannedWork, setPlannedWork] = React.useState();
   const [allSiteData, setAllSiteData] = React.useState([{}]);
 
-  const load = open && options.length === 0;
+  const { openPopup, setOpenPopup, siteEName } = props;
 
-  const sName = siteName.Site_ID;
-
-  const { openPopup, setOpenPopup, seSite, siteEName } = props;
+  const SiteEngineerForDetails = useSelector((state) => state.SiteEngineerForAllSite);
+  const { SiteEngineerForSitesLoading, SiteEngineerForSitesError, SiteEngineerForSites } =
+    SiteEngineerForDetails;
 
   const getSiteData = async () => {
     try {
@@ -53,43 +59,26 @@ export default function SiteEngineerDayPlanPopup(props) {
     }
   };
 
-  // const handleRowClick = () => {
-  //   const selectedSiteId = siteName.Site_ID;
-  //   const reformattedArray = allSiteData.map(({ Site_ID, Scope }) => ({
-  //     Site_ID,
-  //     Scope
-  //   }));
-  //   var newArray = reformattedArray.filter(function (el) {
-  //     return el.Site_ID === selectedSiteId;
-  //   });
-  //   const Data = newArray.map((object) => object.Scope);
-  //   let Temp = [...new Set(Data)];
-  //   setScope(Temp);
-  //   // return Temp;
-  // };
+  const handleRowClick = () => {
+    const selectedSiteId = selectedId;
+    const reformattedArray = allSiteData.map(({ Site_ID, Scope }) => ({
+      Site_ID,
+      Scope
+    }));
+    var newArray = reformattedArray.filter(function (el) {
+      return el.Site_ID === selectedSiteId;
+    });
+    const Data = newArray.map((object) => object.Scope);
+    let Temp = [...new Set(Data)];
+    setScope(Temp);
+    // return Temp;
+  };
 
   //----------------Site ID--------------------
-  React.useEffect(() => {
-    let active = true;
-    if (!load) {
-      return undefined;
-    }
-    if (active) {
-      setOptions([...seSite]);
-    }
-    return () => {
-      active = false;
-    };
-  }, [load]);
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
 
   React.useEffect(() => {
-    // handleRowClick();
-  }, [siteName]);
+    handleRowClick();
+  }, [selectedId]);
 
   React.useEffect(() => {
     getSiteData();
@@ -98,6 +87,7 @@ export default function SiteEngineerDayPlanPopup(props) {
   const clearallSate = () => {
     setPlanDate('');
     setSiteName('');
+    setSelectedId('');
     setSelectedScope('');
     setPlannedWork('');
   };
@@ -162,45 +152,38 @@ export default function SiteEngineerDayPlanPopup(props) {
           >
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                label="Select Date"
                 value={planDate}
+                InputLabel={planDate}
                 onChange={setDate}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-
-            <Autocomplete
-              id="asynchronous-demo"
-              sx={{ width: 300, marginTop: 3 }}
-              open={open}
-              onOpen={() => {
-                setOpen(true);
-              }}
-              onClose={() => {
-                setOpen(false);
-              }}
-              isOptionEqualToValue={(option, value) => option.Site_ID === value.Site_ID}
-              getOptionLabel={(option) => option.Site_ID}
-              options={options}
-              loading={load}
-              value={siteName}
-              onChange={(event, newValue) => setSiteName(newValue)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Site ID"
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {load ? <CircularProgress color="inherit" size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
-                    )
-                  }}
-                />
-              )}
-            />
+            {SiteEngineerForSitesLoading ? (
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
+            ) : SiteEngineerForSitesError ? (
+              <h1>error....</h1>
+            ) : (
+              <Autocomplete
+                freeSolo
+                sx={{ width: 300 }}
+                id="free-solo-2-demo"
+                disableClearable
+                options={SiteEngineerForSites.map((option) => option.Site_ID)}
+                onChange={(event, newValue) => setSelectedId(newValue?.selectedId || newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Site Id"
+                    InputProps={{
+                      ...params.InputProps,
+                      type: 'search'
+                    }}
+                  />
+                )}
+              />
+            )}
           </Stack>
 
           <Stack
