@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "npm run build"
+    "build": "NPM_CONFIG_PRODUCTION=false npm install --prefix materialkit && npm run build --prefix materialkit"
   },
   "author": "JDR",
   "license": "ISC",
