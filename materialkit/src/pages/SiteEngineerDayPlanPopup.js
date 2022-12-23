@@ -1,6 +1,6 @@
 import React from 'react';
-// import CloseIcon from '@material-ui/icons/Close';
 import {
+  Alert,
   Autocomplete,
   Button,
   CircularProgress,
@@ -15,8 +15,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { Box, style } from '@mui/system';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { Box } from '@mui/system';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { DatePicker, LocalizationProvider } from '@mui/lab';
@@ -36,13 +35,13 @@ export default function SiteEngineerDayPlanPopup(props) {
   let year = date.getFullYear();
   let currentDate = `${year}-${month}-${day}`;
 
-  const [siteName, setSiteName] = React.useState();
   const [selectedId, setSelectedId] = React.useState();
   const [selectedScope, setSelectedScope] = React.useState();
   const [scope, setScope] = React.useState([null]);
   const [planDate, setPlanDate] = React.useState(currentDate);
   const [plannedWork, setPlannedWork] = React.useState();
   const [allSiteData, setAllSiteData] = React.useState([{}]);
+  const [error, setError] = React.useState(false);
 
   const { openPopup, setOpenPopup, siteEName } = props;
 
@@ -86,10 +85,23 @@ export default function SiteEngineerDayPlanPopup(props) {
 
   const clearallSate = () => {
     setPlanDate('');
-    setSiteName('');
     setSelectedId('');
     setSelectedScope('');
     setPlannedWork('');
+  };
+
+  const filterFunction = () => {
+    if (
+      siteEName === '' ||
+      planDate === '' ||
+      selectedId === '' ||
+      selectedScope === '' ||
+      plannedWork === ''
+    ) {
+      setError(true);
+    } else {
+      saveDayPlan();
+    }
   };
 
   async function saveDayPlan() {
@@ -101,9 +113,11 @@ export default function SiteEngineerDayPlanPopup(props) {
       };
       await axiosInstance.post(
         `/siteEngineerDayPlan/save`,
-        { siteEName, planDate, sName, selectedScope, plannedWork },
+        { siteEName, planDate, selectedId, selectedScope, plannedWork },
         config
       );
+
+      setError(false);
     } catch (error) {
       console.log(error);
     }
@@ -112,13 +126,19 @@ export default function SiteEngineerDayPlanPopup(props) {
     clearallSate();
   }
 
-  const handleChange = (event) => {
+  const handleChangeScope = (event) => {
     setSelectedScope(event.target.value);
+  };
+
+  const handleChangePlanWork = (event) => {
+    setPlannedWork(event.target.value);
   };
 
   const setDate = (e) => {
     setPlanDate(`${e.$y}-${e.$M + 1}-${e.$D}`);
   };
+
+  const plan = ['plan one', 'plan two', 'plan three'];
 
   return (
     <>
@@ -128,19 +148,22 @@ export default function SiteEngineerDayPlanPopup(props) {
             <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
               Add Plan
             </Typography>
-
             <Button
               color="primary"
               variant="outlined"
               onClick={() => {
                 setOpenPopup(false);
                 clearallSate();
+                setError(false);
               }}
             >
               <CloseIcon />
             </Button>
           </div>
         </DialogTitle>
+
+        {error === true ? <Alert severity="error">Please enter all the fields</Alert> : ''}
+
         <DialogContent style={{ backgroundColor: '#130f40' }} sx={{ width: '100%', height: 300 }}>
           <Stack
             spacing={1}
@@ -163,7 +186,7 @@ export default function SiteEngineerDayPlanPopup(props) {
                 <CircularProgress />
               </Box>
             ) : SiteEngineerForSitesError ? (
-              <h1>error....</h1>
+              <Alert severity="error">Just select the Site Engineer name</Alert>
             ) : (
               <Autocomplete
                 freeSolo
@@ -204,7 +227,7 @@ export default function SiteEngineerDayPlanPopup(props) {
                 id="demo-simple-select"
                 value={selectedScope}
                 label="Scope"
-                onChange={handleChange}
+                onChange={handleChangeScope}
               >
                 {scope.map((el) => (
                   <MenuItem value={el} key={el}>
@@ -226,17 +249,24 @@ export default function SiteEngineerDayPlanPopup(props) {
               maxWidth: '100%'
             }}
           >
-            <TextField
-              fullWidth
-              label="Planned Work"
-              id="fullWidth"
-              value={plannedWork}
-              onChange={(e) => {
-                setPlannedWork(e.target.value);
-              }}
-            />
+            <FormControl sx={{ width: 500 }}>
+              <InputLabel id="demo-simple-select-label">Plan Work</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={plannedWork}
+                label="Plan Work"
+                onChange={handleChangePlanWork}
+              >
+                {plan.map((el) => (
+                  <MenuItem value={el} key={el}>
+                    {el}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
-          <Button color="primary" variant="outlined" onClick={saveDayPlan}>
+          <Button color="primary" variant="outlined" onClick={filterFunction}>
             Submit Button
           </Button>
         </DialogContent>

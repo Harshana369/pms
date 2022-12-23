@@ -55,31 +55,6 @@ function Set_Result_Date(params) {
   return { ...params.row, Result_Date };
 }
 
-const rows = [
-  {
-    id: '001',
-    planDate: '2022-12-02',
-    sName: 'Test01',
-    selectedScope: 'Relevant scope to Test01',
-    plannedWork: 'Text',
-    Site_Status: 'PAT Submitted',
-    Result_Date: '2022-12-02',
-    Comment: 'Text'
-  },
-  {
-    id: '002',
-    SiteEngineer: 'Dumindu Chamikara',
-    createdAt: '2022-12-15T05:47:39.637Z',
-    planDate: '2022-12-10',
-    plannedWork: 'hhhhh',
-    sName: 'KLBEN1',
-    selectedScope: '1. Miscellaneous HO Huawei2022',
-    updatedAt: '2022-12-15T05:47:39.637Z',
-    __v: 0,
-    _id: '639ab4fb418df3414472db14'
-  }
-];
-
 export default function MobitelSiteEngineersDayPlan() {
   const [openPopup, setOpenPopup] = React.useState(false);
   //---------------
@@ -137,7 +112,9 @@ export default function MobitelSiteEngineersDayPlan() {
       field: 'Comment',
       headerName: 'Comment',
       width: 150,
-      editable: true
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['Comment one', 'Comment two', 'Comment three']
     },
     {
       field: 'actions',
@@ -176,10 +153,6 @@ export default function MobitelSiteEngineersDayPlan() {
     dispatch(getSiteEngineerForTableData());
   }, [dispatch]);
 
-  React.useEffect(() => {
-    dispatch(AllSiteId());
-  }, [dispatch]);
-
   //----------------Site Engineer--------------------
 
   const defaultProps = {
@@ -214,7 +187,7 @@ export default function MobitelSiteEngineersDayPlan() {
           {...buttonBaseProps}
           onClick={() => handleExport({ getRowsToExport: getUnfilteredRows })}
         >
-          All Database
+          All DayPlan
         </Button>
       </GridToolbarContainer>
     );
@@ -249,7 +222,7 @@ export default function MobitelSiteEngineersDayPlan() {
               <CircularProgress />
             </Box>
           ) : error ? (
-            <h1>error...</h1>
+            <Alert severity="error"> Site Engineer name not Loading</Alert>
           ) : (
             <Autocomplete
               sx={{ width: 300, marginTop: 3 }}

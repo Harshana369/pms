@@ -2808,7 +2808,7 @@ export default function Datagrid({ DropDownValue, ProjectNameDropdownValue }) {
     await axiosInstance
       .delete(`/mobitelProjectsDatabases/delete/${selectionModel}`)
       .catch((err) => {
-        console.log(err.message);
+        // console.log(err.message);
       });
     alert('Successfully Deleted');
     fetchData();
@@ -3262,7 +3262,7 @@ export default function Datagrid({ DropDownValue, ProjectNameDropdownValue }) {
 
   const getData = async () => {
     await axiosInstance.get('/column/').then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setColumnVisibilityModel(res.data);
     });
   };

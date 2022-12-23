@@ -7,6 +7,9 @@ const dataSchema = new mongoose.Schema(
     sName: String,
     selectedScope: String,
     plannedWork: String,
+    Site_Status: String,
+    Result_Date: String,
+    Comment: String,
   },
   { timestamps: true }
 );

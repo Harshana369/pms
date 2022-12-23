@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, Outlet } from 'react-router-dom';
 import CryptoJS from 'react-native-crypto-js';
+import { useDispatch } from 'react-redux';
+
 // material
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
-//
+import { AllSiteId } from '../../Redux/Action/DayPlanAction';
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 import Logo from '../../components/Logo';
@@ -13,6 +15,8 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import sidebarConfig from './SidebarConfig';
 import Empty from './Empty';
+
+/* eslint-disable */
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 70;
@@ -86,6 +90,12 @@ export default function DashboardLayout({ isOpenSidebar, onCloseSidebar, onOpenS
     onOpenSidebar: PropTypes.func
   };
 
+  const dispatch = useDispatch();
+
+  // loading all site engineers names
+  React.useEffect(() => {
+    dispatch(AllSiteId());
+  }, [dispatch]);
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />

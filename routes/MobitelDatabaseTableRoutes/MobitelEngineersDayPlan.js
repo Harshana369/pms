@@ -15,7 +15,6 @@ router.get("/getAllSiteEngineersName", (req, res) => {
     return res.status(200).json({
       success: true,
       allSiteEngineersNames: getAllSiteEngineersName(posts),
-      allSiteData: posts,
     });
   });
 });
@@ -177,10 +176,11 @@ router.get("/getAllSiteData", (req, res) => {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 router.post("/siteEngineerDayPlan/save", (req, res) => {
+  console.log(req.body);
   const temp = {
     SiteEngineer: req.body.siteEName.Site_Engineer,
     planDate: req.body.planDate,
-    sName: req.body.sName,
+    sName: req.body.selectedId,
     selectedScope: req.body.selectedScope,
     plannedWork: req.body.plannedWork,
   };
@@ -234,6 +234,29 @@ router.route("/getSiteEngineerForTableLoad/:id").get(async (req, res) => {
     // console.log(uniqueTableArray);
     return res.status(200).json(uniqueTableArray);
   });
+});
+
+// -----------------------------------------07---------------------------------------------------------------------------
+// ------------------------- Site Engineer For Update Table  ---------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+router.route("/SiteEngineerDayPlan/Edit").put(async (req, res) => {
+  let postID = req.body._id;
+  const { Site_Status, Result_Date, Comment } = req.body;
+
+  const updatePost = {
+    Site_Status,
+    Result_Date,
+    Comment,
+  };
+  await DayPlan.findByIdAndUpdate(postID, updatePost)
+    .then(() => {
+      res.status(200).send({ status: "DayPlan Details Updated" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ status: "Update Error", error: err.message });
+    });
 });
 
 module.exports = router;

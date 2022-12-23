@@ -32,8 +32,8 @@ router.get(
       return res.status(200).json({
         success: true,
         existingPosts: posts,
-        // chartDataForFrontEnd: getchartData(posts), // Graph data of number of sites Mobilized in each month sending to front end Appwebsitevisits.
-        // XaxisDataForTheGraphs: getXaxisData(), // x axis data labels array sending to the Column graghs front end.
+        chartDataForFrontEnd: getchartData(posts), // Graph data of number of sites Mobilized in each month sending to front end Appwebsitevisits.
+        XaxisDataForTheGraphs: getXaxisData(), // x axis data labels array sending to the Column graghs front end.
       });
     });
   }
