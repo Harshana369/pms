@@ -44,15 +44,14 @@ function AllMobitelHandoverData() {
   }, []);
 
   const column = [
-    {
-      field: '_id',
-      title: 'Project ID',
-      width: 150
-    },
+    // {
+    //   field: '_id',
+    //   title: 'Project ID',
+    //   width: 150
+    // },
     {
       field: 'Planning_ID',
-      title: 'Planning_ID',
-      width: 350
+      title: 'Planning_ID'
     },
     {
       field: 'Implementation_By',
@@ -61,15 +60,26 @@ function AllMobitelHandoverData() {
     {
       field: 'Project',
       title: 'Project',
-      width: 1000
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'Site_ID',
-      title: 'Site_ID'
+      title: 'Site_ID',
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'Site_Name',
-      title: 'Site_Name'
+      title: 'Site_Name',
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'HO_Date',
@@ -85,11 +95,19 @@ function AllMobitelHandoverData() {
     },
     {
       field: 'Scope',
-      title: 'Scope'
+      title: 'Scope',
+      cellStyle: {
+        minWidth: 300,
+        maxWidth: 300
+      }
     },
     {
       field: 'New_RAT',
-      title: 'New_RAT'
+      title: 'New_RAT',
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'New_Sector',
@@ -125,7 +143,11 @@ function AllMobitelHandoverData() {
     },
     {
       field: 'Azimuth',
-      title: 'Azimuth'
+      title: 'Azimuth',
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'Antenna_Height',
@@ -178,11 +200,20 @@ function AllMobitelHandoverData() {
     },
     {
       field: 'Planning_Comments',
-      title: 'Planning_Comments'
+      title: 'Planning_Comments',
+
+      cellStyle: {
+        minWidth: 1800,
+        maxWidth: 1800
+      }
     },
     {
       field: 'Site_Engineer',
-      title: 'Site_Engineer'
+      title: 'Site_Engineer',
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'Assigned_Date',
@@ -190,7 +221,11 @@ function AllMobitelHandoverData() {
     },
     {
       field: 'Special_Tag',
-      title: 'Special_Tag'
+      title: 'Special_Tag',
+      cellStyle: {
+        minWidth: 200,
+        maxWidth: 200
+      }
     },
     {
       field: 'Coordinator_Comments',
@@ -198,11 +233,19 @@ function AllMobitelHandoverData() {
     },
     {
       field: 'Sub_Contractor',
-      title: 'Sub_Contractor'
+      title: 'Sub_Contractor',
+      cellStyle: {
+        minWidth: 300,
+        maxWidth: 300
+      }
     },
     {
       field: 'Sub_Contractor_Remarks',
-      title: 'Sub_Contractor_Remarks'
+      title: 'Sub_Contractor_Remarks',
+      cellStyle: {
+        minWidth: 300,
+        maxWidth: 300
+      }
     },
     {
       field: 'Site_Status',
@@ -536,6 +579,7 @@ function AllMobitelHandoverData() {
   //   { title: 'Doğum Yılı', field: 'birthYear', type: 'numeric' },
   //   { title: 'Doğum Yeri', field: 'birthCity', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } }
   // ];
+
   const rows = [{ name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 }];
   return (
     <Page title="Mobitel Projects Databases | Projects Management Database">
@@ -548,9 +592,14 @@ function AllMobitelHandoverData() {
           data={dat}
           columns={column}
           options={{
-            filtering: true
+            filtering: true,
             // addRowPosition: 'first',
             // actionsColumnIndex: -1
+            headerStyle: {
+              backgroundColor: '#01579b',
+              color: '#FFF'
+            },
+            columnsButton: true
           }}
         />
       </Box>

@@ -1,4 +1,5 @@
 const router = require("express").Router();
+
 const Posts = require("../../models/mobitelProjectsDatabase");
 const DayPlan = require("../../models/mobitelSiteEngineerDayPlan");
 // ------------------------------------------01--------------------------------------------------------------------------
@@ -176,7 +177,7 @@ router.get("/getAllSiteData", (req, res) => {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 router.post("/siteEngineerDayPlan/save", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const temp = {
     SiteEngineer: req.body.siteEName.Site_Engineer,
     planDate: req.body.planDate,
@@ -249,6 +250,10 @@ router.route("/SiteEngineerDayPlan/Edit").put(async (req, res) => {
     Result_Date,
     Comment,
   };
+
+  // console.log(updatePost);
+  // console.log(postID);
+
   await DayPlan.findByIdAndUpdate(postID, updatePost)
     .then(() => {
       res.status(200).send({ status: "DayPlan Details Updated" });
@@ -257,6 +262,60 @@ router.route("/SiteEngineerDayPlan/Edit").put(async (req, res) => {
       console.log(err);
       res.status(500).send({ status: "Update Error", error: err.message });
     });
+});
+
+// -----------------------------------------07---------------------------------------------------------------------------
+// ------------------------- Mobitel Database Scope Update  ---------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
+  await Posts.find().exec(async (err, posts) => {
+    const SiteID = req.body.sName;
+    const Site_Status = req.body.Site_Status;
+    const myScope = req.body.selectedScope;
+
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+
+    var uniqueScope = posts.filter(function (el) {
+      return el.Site_ID === SiteID && el.Scope === myScope;
+    });
+
+    let ProjectID = uniqueScope.map(function (element) {
+      return element.Project_ID;
+    });
+
+    const Projectid = ProjectID[0];
+    // console.log(Projectid);
+    // console.log(Site_Status);
+    // const Project_ID = "62e8e36c35659d158f2e4cf7";
+    // console.log(Project_ID);
+
+    await Posts.findOneAndUpdate(
+      { Project_ID: `${Projectid}` },
+      { Site_Status: `${Site_Status}` }
+    )
+
+      .then(() => {
+        res
+          .status(200)
+          .send({ status: "Mobitel database Site_Status Updated" });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send({ status: "Update Error", error: err.message });
+      });
+  });
+
+  // async function editScope(Project_ID, Site_Status) {
+  //   console.log(Project_ID);
+  //   console.log(Site_Status);
+
+  //   await Posts.findOneAndUpdate(Project_ID, Site_Status);
+  // }
 });
 
 module.exports = router;

@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema(
   {
+    _id: String,
+    Project_ID: String,
+
     Planning_ID: {
       type: String,
       unique: true,

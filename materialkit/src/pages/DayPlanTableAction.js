@@ -13,6 +13,9 @@ export default function DayPlanTableAction({ params, rowId, setRowId }) {
     setLoading(true);
 
     const result = await axiosInstance.put('/SiteEngineerDayPlan/Edit', params.row);
+    await axiosInstance.put('/mobitelDatabase/Scope/Edit', params.row);
+    // console.log(resultScope);
+
     if (result) {
       setSuccess(true);
       setRowId(null);
