@@ -35,9 +35,9 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 export default function AppBugReports1({ handoverData }) {
-  // const url = 'http://172.22.110.186';
+  const url = 'http://172.22.110.186';
 
-  const url = 'http://localhost:3000';
+  // const url = 'http://localhost:3000';
   const TOTAL = handoverData;
 
   const handleClickOpen = () => {

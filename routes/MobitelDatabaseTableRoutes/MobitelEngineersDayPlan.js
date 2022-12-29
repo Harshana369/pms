@@ -93,86 +93,7 @@ router.get("/getAllSiteData", (req, res) => {
   });
 });
 
-// --------------------------------------------------------------------------------------------------------------------
-// -----------------------  Get Site_Id of Site Engineers DayPlan from MobitelDatabase --------------------------------------------
-// --------------------------------------------------------------------------------------------------------------------
-
-// router.get("/allSiteID", (req, res) => {
-//   Posts.find().exec((err, posts) => {
-//     if (err) {
-//       return res.status(400).json({
-//         error: err,
-//       });
-//     }
-//     return res.status(200).json({
-//       success: true,
-//       AllSite: getAllSiteId(posts),
-//     });
-//   });
-// });
-
-// --------------------------------------------------------------------------------------------------------------------
-// -----------------------  Get Site_Id for Scope Data --------------------------------------------
-// --------------------------------------------------------------------------------------------------------------------
-
-// router.route("/getScopeData/:id").get(async (req, res) => {
-//   //   let postId = "62e90ff2092ec9454c92a0c0";
-
-//   await Posts.find().exec((err, posts) => {
-//     let postId = req.params.id;
-
-//     if (err) {
-//       return res.status(400).json({
-//         error: err,
-//       });
-//     }
-
-//     return res.status(200).json({
-//       success: true,
-//       AllScopeObj: getAllScopeObj(posts, postId),
-//     });
-//   });
-// });
-
-// // router("/getScopeData/:id").get(async (req, res) => {
-// //   let postId = req.params.id;
-// //   console.log(postId);
-// //   await Posts.findById(postId, (err, post) => {
-// //     if (err) {
-// //       return res.status(400).json({ success: false, err });
-// //     }
-// //     return res.status(200).json({
-// //       success: true,
-// //       post,
-// //     });
-// //   });
-// // });
-
-// function getAllSiteId(posts) {
-//   const reformattedArray = posts.map(({ Site_ID, _id, Scope }) => ({
-//     Site_ID,
-//     _id,
-//     Scope,
-//   }));
-//   const filteredArray = reformattedArray.filter(
-//     (value, index, self) =>
-//       index === self.findIndex((t) => t.Site_ID === value.Site_ID)
-//   );
-//   //   console.log(filteredArray);
-//   return filteredArray;
-// }
-
-// // ----------------------------
-
-// function getAllScopeObj(posts, postId) {
-//   var newArray = posts.filter(function (el) {
-//     return el.Site_ID === postId;
-//   });
-//   //console.log(newArray);
-//   return newArray;
-// }
-
-// -----------------------------------------04---------------------------------------------------------------------------
+//-----------------------------------04---------------------------------------------------------------------------
 // ------------------------- Posting sites data to the database  ---------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -250,10 +171,6 @@ router.route("/SiteEngineerDayPlan/Edit").put(async (req, res) => {
     Result_Date,
     Comment,
   };
-
-  // console.log(updatePost);
-  // console.log(postID);
-
   await DayPlan.findByIdAndUpdate(postID, updatePost)
     .then(() => {
       res.status(200).send({ status: "DayPlan Details Updated" });
@@ -265,7 +182,7 @@ router.route("/SiteEngineerDayPlan/Edit").put(async (req, res) => {
 });
 
 // -----------------------------------------07---------------------------------------------------------------------------
-// ------------------------- Mobitel Database Scope Update  ---------------------------------------------------------------------------------------------------
+// ------------------------- Mobitel Database Site Status Update  ---------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
@@ -290,9 +207,6 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
 
     const Projectid = ProjectID[0];
     // console.log(Projectid);
-    // console.log(Site_Status);
-    // const Project_ID = "62e8e36c35659d158f2e4cf7";
-    // console.log(Project_ID);
 
     await Posts.findOneAndUpdate(
       { Project_ID: `${Projectid}` },
@@ -309,13 +223,6 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
         res.status(500).send({ status: "Update Error", error: err.message });
       });
   });
-
-  // async function editScope(Project_ID, Site_Status) {
-  //   console.log(Project_ID);
-  //   console.log(Site_Status);
-
-  //   await Posts.findOneAndUpdate(Project_ID, Site_Status);
-  // }
 });
 
 module.exports = router;
