@@ -189,6 +189,7 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
   await Posts.find().exec(async (err, posts) => {
     const SiteID = req.body.sName;
     const Site_Status = req.body.Site_Status;
+    const Commisioned_Date = req.body.Result_Date;
     const myScope = req.body.selectedScope;
 
     if (err) {
@@ -210,7 +211,7 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
 
     await Posts.findOneAndUpdate(
       { Project_ID: `${Projectid}` },
-      { Site_Status: `${Site_Status}` }
+      { Site_Status: `${Site_Status}`, Commisioned_Date: `${Commisioned_Date}` }
     )
 
       .then(() => {

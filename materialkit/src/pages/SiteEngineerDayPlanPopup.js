@@ -138,7 +138,27 @@ export default function SiteEngineerDayPlanPopup(props) {
     setPlanDate(`${e.$y}-${e.$M + 1}-${e.$D}`);
   };
 
-  const plan = ['plan one', 'plan two', 'plan three'];
+  const plan = [
+    'Site survey',
+    'Site survey approval',
+    'Sub-con readiness',
+    'Material readiness',
+    'MCW readiness',
+    'Site readiness (Approval, Permission, Power, TX etc)',
+    'Installation',
+    'Commission',
+    'Pre-PAT',
+    'Acceptance (PAT)',
+    'Acceptance (SAR)',
+    'On air',
+    'Material return',
+    'Recommendation to payment (BOQ)',
+    'PR Requisition',
+    'PO Issuance',
+    'Invoice',
+    'Payment',
+    'PO closure'
+  ];
 
   return (
     <>

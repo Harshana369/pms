@@ -74,10 +74,15 @@ export default function MobitelSiteEngineersDayPlan() {
   } = AllTableDetails;
 
   const columns = [
-    { field: 'planDate', headerName: 'Plan Date', width: 150 },
+    { field: 'planDate', headerName: 'Plan Date', width: 100 },
     {
       field: 'sName',
       headerName: 'Site ID',
+      width: 100
+    },
+    {
+      field: 'SiteEngineer',
+      headerName: 'Site Engineer',
       width: 150
     },
     {
@@ -96,12 +101,37 @@ export default function MobitelSiteEngineersDayPlan() {
       width: 150,
       type: 'singleSelect',
       editable: true,
-      valueOptions: ['PAT Submitted', 'Commissioned', 'installed/Tx Pending', 'Hold']
+      valueOptions: [
+        'On Air',
+        'PAT Pass',
+        'PAT Pass with minor',
+        'PAT Reject',
+        'PAT Submitted',
+        'SAR Only/ SAR Approved',
+        'SAR Only/ SAR Rejected',
+        'SAR Only/ SAR Submitted',
+        'Commissioned',
+        'Installed',
+        'MCW completed',
+        'TSSR Approved',
+        'TSSR Rejected',
+        'TSSR Submitted',
+        'Supply Only',
+        'Site Withdrawn',
+        'Not Started',
+        'Material return',
+        'Recommendations to payment(BOQ)',
+        'PR Requisition',
+        'PO Issuance',
+        'Invoice',
+        'Payment',
+        'PO closure'
+      ]
     },
     {
       field: 'Result_Date',
       headerName: 'Result Date',
-      width: 150,
+      width: 100,
       type: 'date',
 
       valueGetter: Get_Result_Date,
@@ -111,10 +141,8 @@ export default function MobitelSiteEngineersDayPlan() {
     {
       field: 'Comment',
       headerName: 'Comment',
-      width: 150,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Comment one', 'Comment two', 'Comment three']
+      width: 200,
+      editable: true
     },
     {
       field: 'actions',
@@ -132,6 +160,7 @@ export default function MobitelSiteEngineersDayPlan() {
       children: [
         { field: 'planDate' },
         { field: 'sName' },
+        { field: 'SiteEngineer' },
         { field: 'selectedScope' },
         { field: 'plannedWork' }
       ]

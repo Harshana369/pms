@@ -593,6 +593,8 @@ function AllMobitelHandoverData() {
           columns={column}
           options={{
             filtering: true,
+            exportButton: true,
+
             // addRowPosition: 'first',
             // actionsColumnIndex: -1
             headerStyle: {
