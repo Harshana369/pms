@@ -597,9 +597,20 @@ function AllMobitelHandoverData() {
 
             // addRowPosition: 'first',
             // actionsColumnIndex: -1
+            padding: 'dense',
             headerStyle: {
               backgroundColor: '#01579b',
-              color: '#FFF'
+              color: '#FFF',
+              whiteSpace: 'nowrap',
+              height: 1,
+              maxHeight: 1,
+              padding: 0
+            },
+            rowStyle: {
+              whiteSpace: 'nowrap',
+              height: 1,
+              maxHeight: 1,
+              padding: 0
             },
             columnsButton: true
           }}
