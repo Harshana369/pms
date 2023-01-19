@@ -188,9 +188,10 @@ router.route("/SiteEngineerDayPlan/Edit").put(async (req, res) => {
 router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
   await Posts.find().exec(async (err, posts) => {
     const SiteID = req.body.sName;
-    const Site_Status = req.body.Site_Status;
-    const Commisioned_Date = req.body.Result_Date;
     const myScope = req.body.selectedScope;
+    //------------------
+    const status = req.body.Site_Status;
+    const status_date = req.body.Result_Date;
 
     if (err) {
       return res.status(400).json({
@@ -207,22 +208,266 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     });
 
     const Projectid = ProjectID[0];
-    // console.log(Projectid);
 
-    await Posts.findOneAndUpdate(
-      { Project_ID: `${Projectid}` },
-      { Site_Status: `${Site_Status}`, Commisioned_Date: `${Commisioned_Date}` }
-    )
+    // On Air
+    if (status === "On Air") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { On_Air_Status: "Completed", On_Air_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
 
-      .then(() => {
-        res
-          .status(200)
-          .send({ status: "Mobitel database Site_Status Updated" });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send({ status: "Update Error", error: err.message });
-      });
+      // PAT Pass
+    } else if (status === "PAT Pass") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { PAT_Status: "Pass", PAT_Pass_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+
+      // PAT Pass with Minor
+    } else if (status === "PAT Pass with Minor") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { PAT_Status: "Pass with minor", PAT_Pass_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    // PAT Reject
+    else if (status === "PAT Reject") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { PAT_Status: "Reject" }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //PAT Submitted
+    else if (status === "PAT Submitted") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { PAT_Status: "Submitted", PAT_Submitted_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //SAR Only/ SAR Approved
+    else if (status === "SAR Only/ SAR Approved") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { SAR_Status: "Pass", SAR_Approved_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //SAR Only/ SAR Rejected
+    else if (status === "SAR Only/ SAR Rejected") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { SAR_Status: "Reject" }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //SAR Only/ SAR Submitted
+    else if (status === "SAR Only/ SAR Submitted") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { SAR_Status: "Submitted", SAR_Submitted_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Commissioned
+    else if (status === "Commissioned") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Commissioned_Status: "Completed",
+          Commissioned_Date: `${status_date}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Installed
+    else if (status === "Installed") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { Installation_Status: "Completed", Installed_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //MCW Completed
+    else if (status === "MCW Completed") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { MCW_Status: "Completed", MCW_Completed_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //TSSR Approved
+    else if (status === "TSSR Approved") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { TSSR_Status: "Approved", TSSR_aApproved_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //TSSR Rejected
+    else if (status === "TSSR Rejected") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { TSSR_Status: "Reject" }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //TSSR Submitted
+    else if (status === "TSSR Submitted") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { TSSR_Status: "Submitted", TSSR_Submitted_Date: `${status_date}` }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Supply Only
+    else if (status === "Supply Only") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { Installation_Status: "Hold" }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Site Withdrawn
+    else if (status === "Site Withdrawn") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { Installation_Status: "Hold" }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Not Started
+    else if (status === "Not Started") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        { Installation_Status: "Pending" }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    } else {
+    }
   });
 });
 

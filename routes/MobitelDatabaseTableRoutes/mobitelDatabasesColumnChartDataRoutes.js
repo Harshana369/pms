@@ -88,7 +88,7 @@ function getXaxisData() {
 
   var XaxisMonths = monthsArray;
 
-  //console.log(monthsArray);
+  // console.log(monthsArray);
   return XaxisMonths;
 }
 
@@ -137,12 +137,13 @@ function getchartData(posts) {
   }
 
   let monthsArray = monthsArrayReversed;
-  // console.log(monthsArrayReversed);
+  // console.log(monthsArray);
   // monthsArray = ['2021-02', '2021-03','2021-04', '2021-05','2021-06', '2021-07','2021-08', '2021-09','2021-10', '2021-11','2021-12', '2022-01']
-
+  // console.log(monthsCountFrom2015);
   for (var i = 0; i < monthsCountFrom2015; i++) {
     (mobilizeData[i] = posts
       .filter((obj) => obj.Mobilization_Status === "Completed")
+
       .filter(
         (obj) => obj.Mobilized_Date.slice(0, 7) === monthsArray[i]
       ).length),
@@ -179,8 +180,6 @@ function getchartData(posts) {
         ).length);
   }
   // ----------------------------------------------------------------------------------------------------------------------------------------------
-
-  //console.log(onairData);
 
   let myarray1 = mobilizeData,
     cumilative1 = [];
@@ -243,7 +242,7 @@ function getchartData(posts) {
     LastYearCum1
   );
 
-  // console.log(cumilative4);
+  // console.log(chartData);
   return chartData;
 }
 

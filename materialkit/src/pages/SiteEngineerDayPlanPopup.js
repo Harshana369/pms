@@ -21,7 +21,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSiteEngineerForTableData } from '../Redux/Action/DayPlanAction';
 
 /* eslint-disable */
 
@@ -42,8 +43,10 @@ export default function SiteEngineerDayPlanPopup(props) {
   const [plannedWork, setPlannedWork] = React.useState();
   const [allSiteData, setAllSiteData] = React.useState([{}]);
   const [error, setError] = React.useState(false);
+  const [tableReplace, setTableReplace] = React.useState(false);
+  const dispatch = useDispatch();
 
-  const { openPopup, setOpenPopup, siteEName } = props;
+  const { openPopup, setOpenPopup, siteEName, setSiteENmae } = props;
 
   const SiteEngineerForDetails = useSelector((state) => state.SiteEngineerForAllSite);
   const { SiteEngineerForSitesLoading, SiteEngineerForSitesError, SiteEngineerForSites } =
@@ -101,6 +104,7 @@ export default function SiteEngineerDayPlanPopup(props) {
       setError(true);
     } else {
       saveDayPlan();
+      setTableReplace(false);
     }
   };
 
@@ -116,7 +120,7 @@ export default function SiteEngineerDayPlanPopup(props) {
         { siteEName, planDate, selectedId, selectedScope, plannedWork },
         config
       );
-
+      setTableReplace(true);
       setError(false);
     } catch (error) {
       console.log(error);
@@ -159,6 +163,10 @@ export default function SiteEngineerDayPlanPopup(props) {
     'Payment',
     'PO closure'
   ];
+
+  // React.useEffect(() => {
+  //   dispatch(getSiteEngineerForTableData());
+  // }, [tableReplace, dispatch]);
 
   return (
     <>

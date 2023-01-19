@@ -90,6 +90,7 @@ export default function MobitelProjectsInsights() {
       })
       .then((res) => {
         setChartDatForColumnGraph(res.data.chartDataForFrontEnd);
+        console.log(res);
         setXaxisData(res.data.XaxisDataForTheGraphs);
       });
   };
