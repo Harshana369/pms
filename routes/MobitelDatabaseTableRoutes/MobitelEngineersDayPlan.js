@@ -213,7 +213,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     if (status === "On Air") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { On_Air_Status: "Completed", On_Air_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          On_Air_Status: "Completed",
+          On_Air_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -228,7 +232,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     } else if (status === "PAT Pass") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { PAT_Status: "Pass", PAT_Pass_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          PAT_Status: "Pass",
+          PAT_Pass_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -243,7 +251,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     } else if (status === "PAT Pass with Minor") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { PAT_Status: "Pass with minor", PAT_Pass_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          PAT_Status: "Pass with minor",
+          PAT_Pass_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -258,7 +270,10 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "PAT Reject") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { PAT_Status: "Reject" }
+        {
+          Site_Status: `${status}`,
+          PAT_Status: "Reject",
+        }
       )
         .then(() => {
           res
@@ -273,7 +288,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "PAT Submitted") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { PAT_Status: "Submitted", PAT_Submitted_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          PAT_Status: "Submitted",
+          PAT_Submitted_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -288,7 +307,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "SAR Only/ SAR Approved") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { SAR_Status: "Pass", SAR_Approved_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          SAR_Status: "Pass",
+          SAR_Approved_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -303,7 +326,10 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "SAR Only/ SAR Rejected") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { SAR_Status: "Reject" }
+        {
+          Site_Status: `${status}`,
+          SAR_Status: "Reject",
+        }
       )
         .then(() => {
           res
@@ -318,7 +344,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "SAR Only/ SAR Submitted") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { SAR_Status: "Submitted", SAR_Submitted_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          SAR_Status: "Submitted",
+          SAR_Submitted_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -334,6 +364,7 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
         {
+          Site_Status: `${status}`,
           Commissioned_Status: "Completed",
           Commissioned_Date: `${status_date}`,
         }
@@ -351,7 +382,12 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "Installed") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { Installation_Status: "Completed", Installed_Date: `${status_date}` }
+
+        {
+          Site_Status: `${status}`,
+          Installation_Status: "Completed",
+          Installed_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -366,7 +402,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "MCW Completed") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { MCW_Status: "Completed", MCW_Completed_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          MCW_Status: "Completed",
+          MCW_Completed_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -381,7 +421,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "TSSR Approved") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { TSSR_Status: "Approved", TSSR_aApproved_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          TSSR_Status: "Approved",
+          TSSR_aApproved_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -396,7 +440,10 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "TSSR Rejected") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { TSSR_Status: "Reject" }
+        {
+          Site_Status: `${status}`,
+          TSSR_Status: "Reject",
+        }
       )
         .then(() => {
           res
@@ -411,7 +458,11 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "TSSR Submitted") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { TSSR_Status: "Submitted", TSSR_Submitted_Date: `${status_date}` }
+        {
+          Site_Status: `${status}`,
+          TSSR_Status: "Submitted",
+          TSSR_Submitted_Date: `${status_date}`,
+        }
       )
         .then(() => {
           res
@@ -426,7 +477,10 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "Supply Only") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { Installation_Status: "Hold" }
+        {
+          Site_Status: `${status}`,
+          Installation_Status: "Hold",
+        }
       )
         .then(() => {
           res
@@ -441,7 +495,10 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "Site Withdrawn") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { Installation_Status: "Hold" }
+        {
+          Site_Status: `${status}`,
+          Installation_Status: "Hold",
+        }
       )
         .then(() => {
           res
@@ -456,7 +513,10 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
     else if (status === "Not Started") {
       await Posts.findOneAndUpdate(
         { Project_ID: `${Projectid}` },
-        { Installation_Status: "Pending" }
+        {
+          Site_Status: `${status}`,
+          Installation_Status: "Pending",
+        }
       )
         .then(() => {
           res
@@ -466,7 +526,127 @@ router.route("/mobitelDatabase/Scope/Edit").put(async (req, res) => {
         .catch((err) => {
           res.status(500).send({ status: "Update Error", error: err.message });
         });
-    } else {
+    }
+    //Material return
+    else if (status === "Material return") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+
+    //Recommendations to payment(BOQ)
+    else if (status === "Recommendations to payment(BOQ)") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+
+    //PR Requisition
+    else if (status === "PR Requisition") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //PO Issuance
+    else if (status === "PO Issuance") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Invoice
+    else if (status === "Invoice") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //Payment
+    else if (status === "Payment") {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
+    }
+    //PO closure
+    else {
+      await Posts.findOneAndUpdate(
+        { Project_ID: `${Projectid}` },
+        {
+          Site_Status: `${status}`,
+        }
+      )
+        .then(() => {
+          res
+            .status(200)
+            .send({ status: "Mobitel database Site_Status Updated" });
+        })
+        .catch((err) => {
+          res.status(500).send({ status: "Update Error", error: err.message });
+        });
     }
   });
 });
