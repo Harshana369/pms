@@ -30,7 +30,8 @@ export default function App() {
       };
 
       try {
-        const { data } = await axiosInstance.get('/api/private', config);
+        const { data } = await axiosInstance.get('/private', config);
+
         setPrivateData(data.data);
       } catch (error) {
         window.stop('/');

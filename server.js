@@ -18,9 +18,11 @@ app.use(express.json());
 //   res.send("Api running");
 // });
 
+const authRouts = require("./routes/auth.js");
+const privateRouts = require("./routes/private");
 // Connecting Routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/private", require("./routes/private"));
+app.use("/mpd/api", authRouts);
+app.use("/mpd/api", privateRouts);
 
 //Database blacks
 require("./routes/csvDataBlackup.js");
@@ -73,56 +75,56 @@ const MobitelEngineersDayPlan = require("./routes/MobitelDatabaseTableRoutes/Mob
 // Error Handler Middleware
 app.use(errorHandler);
 
-app.use(vendorProjectsOverviewTableRoutes);
-app.use(vendorProjectsOverviewData);
-app.use(vendorProjectsDatabases);
+app.use("/mpd/api", vendorProjectsOverviewTableRoutes);
+app.use("/mpd/api", vendorProjectsOverviewData);
+app.use("/mpd/api", vendorProjectsDatabases);
 
-app.use(mobitelProjectsDatabases);
-app.use(mobitelProjectsOverviewTable);
-app.use(mobitelProjectsDatabaseTable);
-app.use(mobitelProjectsOverviewData);
+app.use("/mpd/api", mobitelProjectsDatabases);
+app.use("/mpd/api", mobitelProjectsOverviewTable);
+app.use("/mpd/api", mobitelProjectsDatabaseTable);
+app.use("/mpd/api", mobitelProjectsOverviewData);
 
-app.use(vendorProjectsDatabaseTable);
-app.use(vendorProjectsMilestonesRoutes);
-app.use(userListGetRoutes);
-app.use(siteEnginnersNamesList);
-app.use(specialTagArray);
-app.use(DependencyArray);
-app.use(SiteStatusArray);
-app.use(ResponsibleArrays);
-app.use(ScopeArrays);
-app.use(NewRATArrays);
-app.use(SubConArrays);
+app.use("/mpd/api", vendorProjectsDatabaseTable);
+app.use("/mpd/api", vendorProjectsMilestonesRoutes);
+app.use("/mpd/api", userListGetRoutes);
+app.use("/mpd/api", siteEnginnersNamesList);
+app.use("/mpd/api", specialTagArray);
+app.use("/mpd/api", DependencyArray);
+app.use("/mpd/api", SiteStatusArray);
+app.use("/mpd/api", ResponsibleArrays);
+app.use("/mpd/api", ScopeArrays);
+app.use("/mpd/api", NewRATArrays);
+app.use("/mpd/api", SubConArrays);
 
-app.use(vendorProjectsExcellUpload);
-app.use(mobitelProjectsExcellUpload);
-app.use(mobitelProjectsExcellEdit);
-app.use(vendorProjectsExcellEdit);
+app.use("/mpd/api", vendorProjectsExcellUpload);
+app.use("/mpd/api", mobitelProjectsExcellUpload);
+app.use("/mpd/api", mobitelProjectsExcellEdit);
+app.use("/mpd/api", vendorProjectsExcellEdit);
 
-app.use(vendorProjectsDatabasesColumnChartData);
-app.use(mobitelProjectsDatabasesColumnChartData);
+app.use("/mpd/api", vendorProjectsDatabasesColumnChartData);
+app.use("/mpd/api", mobitelProjectsDatabasesColumnChartData);
 
-app.use(mobitelProjectsEngineersAnalysis);
-app.use(mobitelProjectsSubProjects);
-app.use(vendorProjectsSubProjects);
+app.use("/mpd/api", mobitelProjectsEngineersAnalysis);
+app.use("/mpd/api", mobitelProjectsSubProjects);
+app.use("/mpd/api", vendorProjectsSubProjects);
 
-app.use(mobitelDatabasesPendingTasks);
-app.use(vendorDatabasesPendingTasks);
+app.use("/mpd/api", mobitelDatabasesPendingTasks);
+app.use("/mpd/api", vendorDatabasesPendingTasks);
 
-app.use(mobitelProjectsLastUpdates);
-app.use(vendorProjectsLastUpdates);
-app.use(MobitelEngineersDayPlan);
+app.use("/mpd/api", mobitelProjectsLastUpdates);
+app.use("/mpd/api", vendorProjectsLastUpdates);
+app.use("/mpd/api", MobitelEngineersDayPlan);
 
 require("dotenv").config({ path: "./.env" });
 
-app.use(materialProjectsDatabase);
+app.use("/mpd/api", materialProjectsDatabase);
 
-app.use("/column", mobitelColumnHideShow);
+app.use("/mpd/api/column", mobitelColumnHideShow);
 
 // --------------------------------------------------------------------------
 
 app.use(express.static(path.join(__dirname, "/materialkit/build")));
-app.get("*", (req, res) =>
+app.get("/mpd", (req, res) =>
   res.sendFile(path.join(__dirname, "/materialkit/build/index.html"))
 );
 
@@ -136,6 +138,8 @@ app.get("*", (req, res) =>
 //     res.send("API is running");
 //   });
 // }
+
+// app.get("/mpd/api/mydata", (req, res) => console.log("ok"));
 
 // --------------------------------------------------------------------------
 
